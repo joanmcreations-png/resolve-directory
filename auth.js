@@ -8,10 +8,6 @@ async function signInWithGoogle() {
   await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
 }
 
-async function signInWithGitHub() {
-  await supabase.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: window.location.href } });
-}
-
 async function signOut() {
   await supabase.auth.signOut();
   window.location.reload();
