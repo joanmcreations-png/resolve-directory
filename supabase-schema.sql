@@ -62,3 +62,21 @@ alter table subscriptions enable row level security;
 create policy "Users can view their own subscription"
   on subscriptions for select
   using (auth.uid() = user_id);
+
+-- ---------- Email subscribers (for the "Get notified" list) ----------
+
+create table if not exists subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  source text,
+  subscribed_at timestamp with time zone default now()
+);
+
+alter table subscribers enable row level security;
+
+-- Anyone can sign up (anonymous insert), but nobody can read the list
+-- back from the browser — only the service role (Edge Function) can,
+-- which is what actually sends the campaign emails via Resend.
+create policy "Anyone can subscribe"
+  on subscribers for insert
+  with check (true);

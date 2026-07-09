@@ -234,6 +234,7 @@ function pageHtml(g) {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ email: email, source: 'resolve.directory detail page' })
     }).catch(() => {});
+    supabase.from('subscribers').insert({ email: email, source: 'resolve.directory detail page' }).then(() => {});
     popoverForm.style.display = 'none';
     popoverSuccess.classList.add('show');
   });
