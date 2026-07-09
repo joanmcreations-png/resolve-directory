@@ -1,7 +1,6 @@
-// Fill these in once the Supabase project exists — Settings → API.
-// The anon key is safe to expose client-side by design (RLS protects the data).
-const SUPABASE_URL = 'REPLACE_ME';
-const SUPABASE_ANON_KEY = 'REPLACE_ME';
+// Safe to expose client-side by design — RLS policies protect the data.
+const SUPABASE_URL = 'https://uqriwofgiaugarepjsek.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_rcrdo8qgvDO6mf7i5kziJA_y99u5_qO';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -32,27 +31,31 @@ async function saveProfile(userId, fields) {
   return supabase.from('profiles').update(fields).eq('id', userId);
 }
 
-// Renders the header auth area: Sign In button when signed out,
-// avatar + name when signed in. Call this once the DOM is ready.
-async function renderAuthUI(containerEl) {
+// Swaps the "Sign In" button for a user chip once a session exists.
+// The Sign In button + OAuth popover already exist in the page HTML
+// and stay untouched when signed out — this only runs when signed in.
+async function renderAuthUI() {
   const user = await getCurrentUser();
+  if (!user) return;
 
-  if (!user) {
-    containerEl.innerHTML = '<button class="btn-solid" id="signInBtn">Sign In</button>';
-    document.getElementById('signInBtn').addEventListener('click', () => {
-      document.getElementById('signInPopover').classList.toggle('open');
-    });
-    return;
-  }
+  const signInBtn = document.getElementById('signInBtn');
+  const signInPopover = document.getElementById('signInPopover');
+  if (!signInBtn) return;
 
   const profile = await getProfile(user.id);
-  const name = (profile && profile.name) || user.email;
+  const name = (profile && profile.name) || (user.email || '').split('@')[0];
   const avatar = (profile && profile.avatar_url) || '';
 
-  containerEl.innerHTML = `
-    <div class="user-chip" id="userChip">
-      ${avatar ? `<img src="${avatar}" alt="" class="user-avatar">` : ''}
-      <span>${name}</span>
-    </div>
+  signInBtn.innerHTML = avatar
+    ? `<img src="${avatar}" alt="" class="user-avatar">${name}`
+    : name;
+  signInBtn.classList.add('btn-signed-in');
+
+  signInPopover.innerHTML = `
+    <p>Signed in as <strong>${name}</strong></p>
+    <button class="btn-solid" id="signOutBtn" style="width:100%">Sign out</button>
   `;
+  document.getElementById('signOutBtn').addEventListener('click', signOut);
 }
+
+document.addEventListener('DOMContentLoaded', renderAuthUI);
