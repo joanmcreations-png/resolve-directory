@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>resolve.directory — Discover PowerGrades & LUTs for DaVinci Resolve</title>
+<meta name="description" content="A free, curated directory of PowerGrades and LUTs for DaVinci Resolve, gathered from creators across the web. Find every color grade in one place.">
+<link rel="canonical" href="https://resolve.directory/">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resolve.directory/">
+<meta property="og:title" content="resolve.directory — Every free PowerGrade & LUT for DaVinci Resolve">
+<meta property="og:description" content="A free, curated directory of PowerGrades and LUTs for DaVinci Resolve. Every color grade in one place.">
+<meta property="og:image" content="https://resolve.directory/og.png">
+<meta property="og:site_name" content="resolve.directory">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="resolve.directory — Every free PowerGrade & LUT for DaVinci Resolve">
+<meta name="twitter:description" content="A free, curated directory of PowerGrades and LUTs for DaVinci Resolve. Every color grade in one place.">
+<meta name="twitter:image" content="https://resolve.directory/og.png">
+
+<!-- Structured data for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "resolve.directory",
+  "url": "https://resolve.directory/",
+  "description": "A free, curated directory of PowerGrades and LUTs for DaVinci Resolve.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://resolve.directory/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0b0b0b;
+    --bg-soft: #141414;
+    --border: rgba(255,255,255,0.09);
+    --text: #f2f0ec;
+    --text-dim: #98938a;
+    --text-faint: #59564f;
+    --accent: #e8622c;
+    --free: #4fae72;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  /* ---------- Header ---------- */
+
+  header {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .logo .mark { color: var(--accent); flex-shrink: 0; }
+  .logo .name { color: var(--text-faint); font-weight: 500; }
+
+  nav.top {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  nav.top a.link {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    transition: color 0.15s;
+  }
+  nav.top a.link:hover { color: var(--text); }
+
+  .notify-wrap { position: relative; }
+
+  .btn-solid {
+    background: var(--text);
+    color: #0b0b0b;
+    padding: 9px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-solid:active { transform: scale(0.98); }
+
+  .popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 280px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: none;
+    z-index: 20;
+  }
+  .popover.open { display: block; }
+  .popover p { font-size: 12.5px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.4; }
+  .popover-row { display: flex; gap: 8px; }
+  .popover input[type="email"] {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    min-width: 0;
+  }
+  .popover input[type="email"]:focus { border-color: var(--accent); }
+  .popover .btn-solid { padding: 9px 14px; border-radius: 8px; white-space: nowrap; }
+  .popover .success { font-size: 12.5px; color: var(--free); display: none; }
+  .popover .success.show { display: block; }
+
+  /* ---------- Hero ---------- */
+
+  main.hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 36px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(32px, 4.8vw, 50px);
+    font-weight: 650;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .sub {
+    font-size: 16.5px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    max-width: 480px;
+    margin: 0 auto 30px;
+  }
+
+  .search-wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 19px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+  }
+  input#search {
+    width: 100%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 18px 14px 46px;
+    border-radius: 100px;
+    font-size: 14.5px;
+    outline: none;
+  }
+  input#search:focus { border-color: var(--accent); }
+  input#search::placeholder { color: var(--text-faint); }
+
+  /* ---------- List ---------- */
+
+  section.list-section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 36px 24px 100px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .tab {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 2px 13px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .row:hover .name { color: var(--accent); }
+
+  .rank {
+    width: 20px;
+    color: var(--text-faint);
+    font-size: 13.5px;
+    text-align: right;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-dim);
+  }
+
+  .row-main { flex: 1; min-width: 0; }
+  .name { font-size: 14.5px; font-weight: 600; transition: color 0.15s; }
+  .desc {
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+    letter-spacing: 0.03em;
+  }
+  .tag.free { color: var(--free); background: rgba(79,174,114,0.12); }
+  .tag.paid { color: var(--accent); background: rgba(232,98,44,0.12); }
+
+  .cat {
+    font-size: 12px;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    width: 86px;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 56px 20px;
+    color: var(--text-faint);
+    font-size: 13.5px;
+    display: none;
+  }
+
+  footer {
+    text-align: center;
+    padding: 28px 24px 56px;
+    font-size: 12.5px;
+    color: var(--text-faint);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    nav.top a.link { display: none; }
+    .cat { display: none; }
+    .desc { white-space: normal; }
+    .popover { width: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg class="mark" width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="9" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="15" cy="12" r="6.5" fill="currentColor" opacity="0.9"/>
+    </svg>
+    RESOLVE<span class="name"> Directory</span>
+  </div>
+  <nav class="top">
+    <a class="link" href="#list">Grades</a>
+    <a class="link" href="mailto:hello@resolve.directory?subject=Submit%20a%20Grade">Submit a Grade</a>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="notifyBtn">Get notified</button>
+      <div class="popover" id="popover">
+        <p>Get an email when new grades are added.</p>
+        <div class="popover-row" id="popoverForm">
+          <input type="email" id="emailInput" placeholder="you@email.com" required>
+          <button class="btn-solid" id="popoverSubmit">Notify me</button>
+        </div>
+        <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="hero">
+  <h1>Find every PowerGrade and LUT for DaVinci Resolve.</h1>
+  <p class="sub">Free and premium color grades curated from creators across the web, organized in one place.</p>
+
+  <div class="search-wrap">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="search" type="text" placeholder="Search grades..." autocomplete="off">
+  </div>
+</main>
+
+<section class="list-section" id="list">
+  <div class="tabs">
+    <button class="tab active" data-filter="all">Trending</button>
+    <button class="tab" data-filter="new">Newest</button>
+  </div>
+
+  <div id="rows"></div>
+  <div class="empty" id="emptyState">No grades match your search.</div>
+</section>
+
+<footer>
+  resolve.directory. Built by editors, for editors.<br>Not affiliated with Blackmagic Design.
+</footer>
+
+<script>
+  const grades = [
+    { name: "Filmy PowerGrade + LUTs V2", desc: "Cinematic node-tree grade by colorist Danny Gevirtz, free full pack.", cat: "PowerGrade", tag: "free", url: "https://filmycolor.com/products/filmy-powergrade" },
+    { name: "CinematicX 30 Free LUTs", desc: "Full set of 30 cinematic LUTs built specifically for Resolve, by The Resolve Store.", cat: "LUT Pack", tag: "free", url: "https://theresolve.store/30-free-cinematicx-luts-for-davinci-resolve/" },
+    { name: "Color Grading Central 100 Free LUTs", desc: "Hand-picked pack including the popular M31 orange and teal look.", cat: "LUT Pack", tag: "free", url: "https://www.colorgradingcentral.com/free-luts/" },
+    { name: "CineColor Free LUTs", desc: "Small curated collection of free cinematic color LUTs.", cat: "LUT Pack", tag: "free", url: "https://cinecolor.io/collections/free-luts" },
+    { name: "FilmDaft Free Cinematic LUTs", desc: "Free pack aimed at giving raw footage an instant film look.", cat: "LUT Pack", tag: "free", url: "https://filmdaft.com/free-cinematic-luts-for-color-grading/" },
+    { name: "PresetPro Best Free LUTs 2026", desc: "Curated roundup of the year's best free 3D LUTs (.cube).", cat: "LUT Pack", tag: "free", url: "https://www.presetpro.com/best-free-luts-color-grading-2026/" },
+    { name: "Speckyboy Best Resolve LUTs", desc: "Editorial roundup of 10+ top color grading LUTs for Resolve.", cat: "LUT Pack", tag: "free", url: "https://speckyboy.com/color-grading-luts-davinci-resolve/" }
+  ];
+
+  const iconSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/></svg>';
+
+  const rowsEl = document.getElementById('rows');
+  const emptyEl = document.getElementById('emptyState');
+  let activeFilter = 'all';
+  let query = '';
+
+  function render() {
+    let filtered = grades.filter(g => {
+      return !query || g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query);
+    });
+
+    if (activeFilter === 'new') filtered = [...filtered].reverse();
+
+    rowsEl.innerHTML = filtered.map((g, i) => `
+      <a class="row" href="${g.url}" target="_blank" rel="noopener noreferrer">
+        <span class="rank">${i + 1}</span>
+        <span class="icon">${iconSvg}</span>
+        <span class="row-main">
+          <div class="name">${g.name}</div>
+          <div class="desc">${g.desc}</div>
+        </span>
+        <span class="cat">${g.cat}</span>
+        <span class="tag free">FREE</span>
+      </a>
+    `).join('');
+
+    emptyEl.style.display = filtered.length === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.filter;
+      render();
+    });
+  });
+
+  document.getElementById('search').addEventListener('input', (e) => {
+    query = e.target.value.toLowerCase().trim();
+    render();
+  });
+
+  const notifyBtn = document.getElementById('notifyBtn');
+  const popover = document.getElementById('popover');
+  const popoverForm = document.getElementById('popoverForm');
+  const popoverSuccess = document.getElementById('popoverSuccess');
+
+  notifyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!popover.contains(e.target) && e.target !== notifyBtn) {
+      popover.classList.remove('open');
+    }
+  });
+
+  document.getElementById('popoverSubmit').addEventListener('click', () => {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) return;
+
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'resolve.directory nav' })
+    }).catch(() => {});
+
+    popoverForm.style.display = 'none';
+    popoverSuccess.classList.add('show');
+  });
+
+  render();
+</script>
+
+</body>
+</html>
