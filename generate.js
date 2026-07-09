@@ -18,7 +18,7 @@ function pageHtml(g) {
   const icon = categoryIcons[g.cat] || '';
   const install = categoryInstall[g.cat] || categoryInstall['LUT Pack'];
   const title = `${g.name} — Free ${g.cat} for DaVinci Resolve | resolve.directory`;
-  const canonical = `https://resolve.directory/grade/${g.slug}.html`;
+  const canonical = `https://resolve.directory/grade/${g.slug}/`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -201,14 +201,16 @@ function pageHtml(g) {
 }
 
 grades.forEach(function (g) {
-  fs.writeFileSync(path.join(outDir, g.slug + '.html'), pageHtml(g));
+  const pageDir = path.join(outDir, g.slug);
+  if (!fs.existsSync(pageDir)) fs.mkdirSync(pageDir);
+  fs.writeFileSync(path.join(pageDir, 'index.html'), pageHtml(g));
 });
 
 function sitemapXml() {
   const urls = [
     { loc: 'https://resolve.directory/', changefreq: 'weekly', priority: '1.0' }
   ].concat(grades.map(function (g) {
-    return { loc: `https://resolve.directory/grade/${g.slug}.html`, changefreq: 'monthly', priority: '0.7' };
+    return { loc: `https://resolve.directory/grade/${g.slug}/`, changefreq: 'monthly', priority: '0.7' };
   }));
 
   const body = urls.map(function (u) {
