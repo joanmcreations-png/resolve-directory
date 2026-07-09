@@ -129,7 +129,36 @@
 </div>
 
 <footer>
-  resolve.directory. Built by editors, for editors.<br>Not affiliated with Blackmagic Design.
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <a href="/index.html#list">Grades</a>
+      <a href="#" id="footerSubmit">Submit a Resource</a>
+    </div>
+    <div class="footer-col">
+      <h3>Account</h3>
+      <a href="#" id="footerSignIn">Sign In</a>
+      <a href="#" id="footerNotify">Get notified</a>
+    </div>
+    <div class="footer-col">
+      <h3>Contribute</h3>
+      <a href="https://github.com/joanmcreations-png/resolve-directory" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+        <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+        <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+      </svg>
+      resolve.directory
+    </div>
+    <a class="footer-social" href="https://github.com/joanmcreations-png/resolve-directory" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.1c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5z"/></svg>
+    </a>
+  </div>
+  <p class="footer-disclaimer">Not affiliated with Blackmagic Design.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -205,6 +234,14 @@
     submitForm.style.display = 'none';
     submitSuccess.classList.add('show');
   });
+
+  function footerLinkTo(headerBtn) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => headerBtn.click(), 350);
+  }
+  document.getElementById('footerSubmit').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(submitBtn); });
+  document.getElementById('footerSignIn').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(document.getElementById('signInBtn')); });
+  document.getElementById('footerNotify').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(notifyBtn); });
 </script>
 
 </body>
