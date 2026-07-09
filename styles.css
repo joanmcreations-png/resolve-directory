@@ -358,9 +358,8 @@ footer a { color: var(--text-dim); transition: color 0.15s; text-decoration: non
 footer a:hover { color: var(--text); }
 
 .footer-cols {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
+  display: flex;
+  gap: 64px;
   margin-bottom: 40px;
   text-align: left;
 }
@@ -410,7 +409,7 @@ footer a:hover { color: var(--text); }
 }
 
 @media (max-width: 640px) {
-  .footer-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
+  .footer-cols { gap: 32px; }
 }
 
 @media (max-width: 640px) {
