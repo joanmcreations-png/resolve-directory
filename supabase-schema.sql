@@ -24,7 +24,7 @@ create policy "Users can update their own profile"
   using (auth.uid() = id);
 
 -- Auto-create a blank profile row the moment someone signs in for the
--- first time, pre-filled with whatever Google/GitHub gives us.
+-- first time, pre-filled with whatever Google gives us.
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -41,3 +41,24 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- ---------- Premium subscriptions (Stripe) ----------
+
+create table if not exists subscriptions (
+  user_id uuid references auth.users on delete cascade primary key,
+  stripe_customer_id text unique,
+  stripe_subscription_id text unique,
+  status text not null default 'inactive', -- active | past_due | canceled | inactive
+  current_period_end timestamp with time zone,
+  updated_at timestamp with time zone default now()
+);
+
+alter table subscriptions enable row level security;
+
+-- Users can see their own subscription status (needed to unlock premium
+-- links client-side). Only the Edge Function (service role) can write here —
+-- no insert/update policy for regular users, so Stripe webhooks are the only
+-- way this table changes.
+create policy "Users can view their own subscription"
+  on subscriptions for select
+  using (auth.uid() = user_id);
