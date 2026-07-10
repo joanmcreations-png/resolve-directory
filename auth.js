@@ -47,11 +47,32 @@ async function renderAuthUI() {
     : name;
   signInBtn.classList.add('btn-signed-in');
 
+  const editingSince = (profile && profile.editing_since) || '';
+  const company = (profile && profile.company) || '';
+
   signInPopover.innerHTML = `
     <p>Signed in as <strong>${name}</strong></p>
+    <div class="popover-row" style="flex-direction:column;gap:8px;margin-bottom:10px">
+      <input type="number" id="editingSinceInput" placeholder="Editing since (year)" min="1970" max="2026" value="${editingSince}">
+      <input type="text" id="companyInput" placeholder="Company / studio (optional)" value="${company}">
+    </div>
+    <button class="btn-solid" id="saveProfileBtn" style="width:100%;margin-bottom:8px">Save profile</button>
+    <p class="success" id="profileSaved">Saved.</p>
     <button class="btn-solid" id="signOutBtn" style="width:100%">Sign out</button>
   `;
+
   document.getElementById('signOutBtn').addEventListener('click', signOut);
+  document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+    const year = document.getElementById('editingSinceInput').value;
+    const companyVal = document.getElementById('companyInput').value;
+    await saveProfile(user.id, {
+      editing_since: year ? parseInt(year, 10) : null,
+      company: companyVal || null
+    });
+    const saved = document.getElementById('profileSaved');
+    saved.classList.add('show');
+    setTimeout(() => saved.classList.remove('show'), 2000);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', renderAuthUI);
