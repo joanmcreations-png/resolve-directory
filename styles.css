@@ -103,6 +103,8 @@ nav.top a.link:hover { color: var(--text); }
 .btn-solid:hover { opacity: 0.88; }
 .btn-solid:active { transform: scale(0.97); }
 
+.short-label { display: none; }
+
 .btn-outline {
   background: transparent;
   color: var(--text);
@@ -413,10 +415,27 @@ footer a:hover { color: var(--text); }
 }
 
 @media (max-width: 640px) {
+  header { padding: 14px 14px; height: auto; }
+  .logo { font-size: 12px; padding: 5px 9px 5px 6px; gap: 6px; }
+  .logo .mark { width: 15px; height: 15px; }
   nav.top a.link { display: none; }
+  nav.top { gap: 6px; }
+  .btn-solid, .btn-outline { padding: 7px 11px; font-size: 12px; }
+  .full-label { display: none; }
+  .short-label { display: inline; }
   .cat { display: none; }
   .desc { white-space: normal; }
-  .popover { width: 240px; }
+  .popover {
+    position: fixed;
+    top: 82px;
+    left: 14px;
+    right: 14px;
+    width: auto;
+  }
+  .row { gap: 10px; }
+  .icon { width: 28px; height: 28px; }
+  .rank { width: 16px; font-size: 11px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
 /* ---------- Detail page ---------- */
@@ -553,4 +572,10 @@ details.install p {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin: 40px 0 12px;
+}
+
+@media (max-width: 640px) {
+  .detail-title-row { gap: 6px; }
+  .detail-tags { margin-top: 0; }
+  .detail-wrap { padding: 28px 18px 72px; }
 }
