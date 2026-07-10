@@ -162,6 +162,10 @@ function pageHtml(g) {
       <a href="#" id="footerSignIn">Sign In</a>
       <a href="#" id="footerNotify">Get notified</a>
     </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <a href="/privacy/">Privacy Policy</a>
+    </div>
   </div>
   <div class="footer-bottom">
     <div class="footer-brand">
