@@ -6,6 +6,8 @@ create table if not exists profiles (
   avatar_url text,
   editing_since int,
   company text,
+  country text,
+  social_url text,
   created_at timestamp with time zone default now()
 );
 
