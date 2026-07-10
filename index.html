@@ -248,7 +248,7 @@
       body: JSON.stringify({ email: email, source: 'resolve.directory nav' })
     }).catch(() => {});
 
-    supabase.from('subscribers').insert({ email: email, source: 'resolve.directory nav' }).then(() => {});
+    window.supabaseClient.from('subscribers').insert({ email: email, source: 'resolve.directory nav' }).then(() => {});
 
     popoverForm.style.display = 'none';
     popoverSuccess.classList.add('show');

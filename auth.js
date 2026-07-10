@@ -1,78 +1,85 @@
-// Safe to expose client-side by design — RLS policies protect the data.
-const SUPABASE_URL = 'https://uqriwofgiaugarepjsek.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_rcrdo8qgvDO6mf7i5kziJA_y99u5_qO';
+// Guards against this file being included/executed twice on the same
+// page (was causing "Identifier 'supabase' has already been declared"
+// and silently breaking every auth function).
+if (!window.__resolveAuthLoaded) {
+  window.__resolveAuthLoaded = true;
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Safe to expose client-side by design — RLS policies protect the data.
+  const SUPABASE_URL = 'https://uqriwofgiaugarepjsek.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_rcrdo8qgvDO6mf7i5kziJA_y99u5_qO';
 
-async function signInWithGoogle() {
-  await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-}
+  window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function signOut() {
-  await supabase.auth.signOut();
-  window.location.reload();
-}
+  window.signInWithGoogle = async function () {
+    await window.supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+  };
 
-async function getCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-  return user;
-}
+  window.signOut = async function () {
+    await window.supabaseClient.auth.signOut();
+    window.location.reload();
+  };
 
-async function getProfile(userId) {
-  const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
-  return data;
-}
+  window.getCurrentUser = async function () {
+    const { data: { user } } = await window.supabaseClient.auth.getUser();
+    return user;
+  };
 
-async function saveProfile(userId, fields) {
-  return supabase.from('profiles').update(fields).eq('id', userId);
-}
+  window.getProfile = async function (userId) {
+    const { data } = await window.supabaseClient.from('profiles').select('*').eq('id', userId).single();
+    return data;
+  };
 
-// Swaps the "Sign In" button for a user chip once a session exists.
-// The Sign In button + OAuth popover already exist in the page HTML
-// and stay untouched when signed out — this only runs when signed in.
-async function renderAuthUI() {
-  const user = await getCurrentUser();
-  if (!user) return;
+  window.saveProfile = async function (userId, fields) {
+    return window.supabaseClient.from('profiles').update(fields).eq('id', userId);
+  };
 
-  const signInBtn = document.getElementById('signInBtn');
-  const signInPopover = document.getElementById('signInPopover');
-  if (!signInBtn) return;
+  // Swaps the "Sign In" button for a user chip once a session exists.
+  // The Sign In button + OAuth popover already exist in the page HTML
+  // and stay untouched when signed out — this only runs when signed in.
+  window.renderAuthUI = async function () {
+    const user = await window.getCurrentUser();
+    if (!user) return;
 
-  const profile = await getProfile(user.id);
-  const name = (profile && profile.name) || (user.email || '').split('@')[0];
-  const avatar = (profile && profile.avatar_url) || '';
+    const signInBtn = document.getElementById('signInBtn');
+    const signInPopover = document.getElementById('signInPopover');
+    if (!signInBtn) return;
 
-  signInBtn.innerHTML = avatar
-    ? `<img src="${avatar}" alt="" class="user-avatar">${name}`
-    : name;
-  signInBtn.classList.add('btn-signed-in');
+    const profile = await window.getProfile(user.id);
+    const name = (profile && profile.name) || (user.email || '').split('@')[0];
+    const avatar = (profile && profile.avatar_url) || '';
 
-  const editingSince = (profile && profile.editing_since) || '';
-  const company = (profile && profile.company) || '';
+    signInBtn.innerHTML = avatar
+      ? `<img src="${avatar}" alt="" class="user-avatar">${name}`
+      : name;
+    signInBtn.classList.add('btn-signed-in');
 
-  signInPopover.innerHTML = `
-    <p>Signed in as <strong>${name}</strong></p>
-    <div class="popover-row" style="flex-direction:column;gap:8px;margin-bottom:10px">
-      <input type="number" id="editingSinceInput" placeholder="Editing since (year)" min="1970" max="2026" value="${editingSince}">
-      <input type="text" id="companyInput" placeholder="Company / studio (optional)" value="${company}">
-    </div>
-    <button class="btn-solid" id="saveProfileBtn" style="width:100%;margin-bottom:8px">Save profile</button>
-    <p class="success" id="profileSaved">Saved.</p>
-    <button class="btn-solid" id="signOutBtn" style="width:100%">Sign out</button>
-  `;
+    const editingSince = (profile && profile.editing_since) || '';
+    const company = (profile && profile.company) || '';
 
-  document.getElementById('signOutBtn').addEventListener('click', signOut);
-  document.getElementById('saveProfileBtn').addEventListener('click', async () => {
-    const year = document.getElementById('editingSinceInput').value;
-    const companyVal = document.getElementById('companyInput').value;
-    await saveProfile(user.id, {
-      editing_since: year ? parseInt(year, 10) : null,
-      company: companyVal || null
+    signInPopover.innerHTML = `
+      <p>Signed in as <strong>${name}</strong></p>
+      <div class="popover-row" style="flex-direction:column;gap:8px;margin-bottom:10px">
+        <input type="number" id="editingSinceInput" placeholder="Editing since (year)" min="1970" max="2026" value="${editingSince}">
+        <input type="text" id="companyInput" placeholder="Company / studio (optional)" value="${company}">
+      </div>
+      <button class="btn-solid" id="saveProfileBtn" style="width:100%;margin-bottom:8px">Save profile</button>
+      <p class="success" id="profileSaved">Saved.</p>
+      <button class="btn-solid" id="signOutBtn" style="width:100%">Sign out</button>
+    `;
+
+    document.getElementById('signOutBtn').addEventListener('click', window.signOut);
+    document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+      const year = document.getElementById('editingSinceInput').value;
+      const companyVal = document.getElementById('companyInput').value;
+      await window.saveProfile(user.id, {
+        editing_since: year ? parseInt(year, 10) : null,
+        company: companyVal || null
+      });
+      const saved = document.getElementById('profileSaved');
+      saved.classList.add('show');
+      setTimeout(() => saved.classList.remove('show'), 2000);
     });
-    const saved = document.getElementById('profileSaved');
-    saved.classList.add('show');
-    setTimeout(() => saved.classList.remove('show'), 2000);
-  });
-}
+  };
 
-document.addEventListener('DOMContentLoaded', renderAuthUI);
+  document.addEventListener('DOMContentLoaded', window.renderAuthUI);
+}
