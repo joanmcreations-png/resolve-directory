@@ -278,12 +278,87 @@ section.list-section {
   padding: 36px 24px 100px;
 }
 
-.tabs {
+.tabs-row {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 4px;
 }
+.tabs {
+  display: flex;
+  gap: 24px;
+}
+.cam-dropdown {
+  position: relative;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+.cam-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 13px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.cam-trigger:hover, .cam-trigger.open { border-color: var(--text-faint); background: var(--bg-soft); color: var(--text); }
+.cam-chevron { color: var(--text-faint); flex-shrink: 0; transition: transform 0.2s ease; }
+.cam-trigger.open .cam-chevron { transform: rotate(180deg); }
+
+.cam-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 176px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  z-index: 20;
+  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.5), 0 4px 12px -4px rgba(232,98,44,0.06);
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.cam-menu.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.cam-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.cam-option:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+.cam-option.selected { color: var(--text); background: rgba(232,98,44,0.09); }
+.cam-option-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--text-faint);
+}
+.cam-option.selected .cam-option-dot { background: var(--accent); }
 .tab {
   background: none;
   border: none;

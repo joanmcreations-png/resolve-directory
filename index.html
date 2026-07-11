@@ -108,9 +108,18 @@
 </main>
 
 <section class="list-section" id="list">
-  <div class="tabs">
-    <button class="tab active" data-filter="all">Trending</button>
-    <button class="tab" data-filter="new">Newest</button>
+  <div class="tabs-row">
+    <div class="tabs">
+      <button class="tab active" data-filter="all">Trending</button>
+      <button class="tab" data-filter="new">Newest</button>
+    </div>
+    <div class="cam-dropdown" id="camDropdown">
+      <button class="cam-trigger" id="camTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span id="camTriggerLabel">All cameras</span>
+        <svg class="cam-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="cam-menu" id="camMenu" role="listbox"></ul>
+    </div>
   </div>
 
   <div id="rows"></div>
@@ -155,12 +164,58 @@
 
   const rowsEl = document.getElementById('rows');
   const emptyEl = document.getElementById('emptyState');
+  const camDropdown = document.getElementById('camDropdown');
+  const camTrigger = document.getElementById('camTrigger');
+  const camTriggerLabel = document.getElementById('camTriggerLabel');
+  const camMenu = document.getElementById('camMenu');
   let activeFilter = 'all';
+  let camFilter = 'all';
   let query = '';
+
+  const cameras = [...new Set(grades.map(g => g.cam).filter(c => c && c !== 'Any'))].sort();
+  const camOptions = [{ value: 'all', label: 'All cameras' }, ...cameras.map(c => ({ value: c, label: c }))];
+
+  function renderCamMenu() {
+    camMenu.innerHTML = camOptions.map(o => `
+      <li class="cam-option${o.value === camFilter ? ' selected' : ''}" role="option" data-value="${o.value}" aria-selected="${o.value === camFilter}">
+        <span class="cam-option-dot"></span>${o.label}
+      </li>
+    `).join('');
+  }
+  renderCamMenu();
+
+  camTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = camMenu.classList.toggle('open');
+    camTrigger.classList.toggle('open', isOpen);
+    camTrigger.setAttribute('aria-expanded', isOpen);
+  });
+
+  camMenu.addEventListener('click', (e) => {
+    const opt = e.target.closest('.cam-option');
+    if (!opt) return;
+    camFilter = opt.dataset.value;
+    camTriggerLabel.textContent = camFilter === 'all' ? 'All cameras' : camFilter;
+    renderCamMenu();
+    camMenu.classList.remove('open');
+    camTrigger.classList.remove('open');
+    camTrigger.setAttribute('aria-expanded', 'false');
+    render();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!camDropdown.contains(e.target)) {
+      camMenu.classList.remove('open');
+      camTrigger.classList.remove('open');
+      camTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
 
   function render() {
     let filtered = grades.filter(g => {
-      return !query || g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query);
+      const matchesQuery = !query || g.name.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query);
+      const matchesCam = camFilter === 'all' || g.cam === camFilter;
+      return matchesQuery && matchesCam;
     });
 
     if (activeFilter === 'new') filtered = [...filtered].reverse();
