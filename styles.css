@@ -151,6 +151,51 @@ nav.top a.link:hover { color: var(--text); }
 .popover .success { font-size: 12.5px; color: var(--free); display: none; }
 .popover .success.show { display: block; }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-overlay .popover.modal-card {
+  position: static;
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 16px;
+}
+.modal-overlay .popover.modal-card h3 {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.modal-overlay .popover.modal-card p { font-size: 14px; margin-bottom: 20px; }
+.modal-overlay .popover.modal-card .popover-row { flex-direction: column; gap: 10px; }
+.modal-overlay .popover.modal-card input[type="email"] { padding: 13px 15px; font-size: 14.5px; border-radius: 10px; }
+.modal-overlay .popover.modal-card .btn-solid { padding: 13px 15px; border-radius: 10px; font-size: 14px; }
+.modal-overlay .popover.modal-card .success { font-size: 14px; }
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+.modal-close:hover { color: var(--text); }
+
 .oauth-row { display: flex; flex-direction: column; gap: 8px; }
 .btn-oauth {
   display: flex;

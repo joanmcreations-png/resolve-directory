@@ -73,14 +73,6 @@
     </div>
     <div class="notify-wrap">
       <button class="btn-solid" id="notifyBtn"><span class="full-label">Get notified</span><span class="short-label">Notify</span></button>
-      <div class="popover" id="popover">
-        <p>Get an email when new grades are added.</p>
-        <div class="popover-row" id="popoverForm">
-          <input type="email" id="emailInput" placeholder="you@email.com" required>
-          <button class="btn-solid" id="popoverSubmit">Notify me</button>
-        </div>
-        <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
-      </div>
     </div>
     <div class="notify-wrap" id="authArea">
       <button class="btn-outline" id="signInBtn">Sign In</button>
@@ -96,6 +88,19 @@
     </div>
   </nav>
 </header>
+
+<div class="modal-overlay" id="notifyOverlay">
+  <div class="popover modal-card" id="popover">
+    <button class="modal-close" id="notifyClose" aria-label="Close">&times;</button>
+    <h3>Get notified</h3>
+    <p>Get an email when new grades are added.</p>
+    <div class="popover-row" id="popoverForm">
+      <input type="email" id="emailInput" placeholder="you@email.com" required>
+      <button class="btn-solid" id="popoverSubmit">Notify me</button>
+    </div>
+    <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
+  </div>
+</div>
 
 <main class="hero">
   <h1>Extend DaVinci Resolve with community grades.</h1>
@@ -251,6 +256,7 @@
   });
 
   const notifyBtn = document.getElementById('notifyBtn');
+  const notifyOverlay = document.getElementById('notifyOverlay');
   const popover = document.getElementById('popover');
   const popoverForm = document.getElementById('popoverForm');
   const popoverSuccess = document.getElementById('popoverSuccess');
@@ -262,23 +268,36 @@
 
   const signInPopover = document.getElementById('signInPopover');
 
-  notifyBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
+  function openNotifyModal() {
     submitPopover.classList.remove('open');
     signInPopover.classList.remove('open');
-    popover.classList.toggle('open');
+    notifyOverlay.classList.add('open');
+    setTimeout(() => document.getElementById('emailInput').focus(), 50);
+  }
+  function closeNotifyModal() { notifyOverlay.classList.remove('open'); }
+
+  notifyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openNotifyModal();
+  });
+  document.getElementById('notifyClose').addEventListener('click', closeNotifyModal);
+  notifyOverlay.addEventListener('click', (e) => {
+    if (e.target === notifyOverlay) closeNotifyModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNotifyModal();
   });
 
   submitBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    popover.classList.remove('open');
+    closeNotifyModal();
     signInPopover.classList.remove('open');
     submitPopover.classList.toggle('open');
   });
 
   document.getElementById('signInBtn').addEventListener('click', (e) => {
     e.stopPropagation();
-    popover.classList.remove('open');
+    closeNotifyModal();
     submitPopover.classList.remove('open');
     signInPopover.classList.toggle('open');
   });
@@ -286,9 +305,6 @@
   document.getElementById('googleSignIn').addEventListener('click', () => signInWithGoogle());
 
   document.addEventListener('click', (e) => {
-    if (!popover.contains(e.target) && e.target !== notifyBtn) {
-      popover.classList.remove('open');
-    }
     if (!submitPopover.contains(e.target) && e.target !== submitBtn) {
       submitPopover.classList.remove('open');
     }
@@ -311,6 +327,7 @@
 
     popoverForm.style.display = 'none';
     popoverSuccess.classList.add('show');
+    setTimeout(closeNotifyModal, 1800);
   });
 
   document.getElementById('submitSubmit').addEventListener('click', () => {
