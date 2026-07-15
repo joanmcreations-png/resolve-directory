@@ -802,6 +802,8 @@ details.install p {
   gap: 16px;
   padding: 0 8px;
   margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
 }
 
 .profile-avatar {
