@@ -292,6 +292,16 @@ function pageHtml(g) {
     url: canonical,
     isAccessibleForFree: true,
     keywords: g.cat + ', DaVinci Resolve, color grading'
+  }, {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'resolve.directory', item: 'https://resolve.directory/' },
+      catHub
+        ? { '@type': 'ListItem', position: 2, name: g.cat, item: `https://resolve.directory${catHub}` }
+        : { '@type': 'ListItem', position: 2, name: g.cat },
+      { '@type': 'ListItem', position: 3, name: g.name, item: canonical }
+    ]
   }];
 
   return `<!DOCTYPE html>
@@ -458,7 +468,15 @@ function hubPage(cfg) {
     description: cfg.desc,
     url: `https://resolve.directory${cfg.path}`
   };
-  const jsonld = [collection, itemList];
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'resolve.directory', item: 'https://resolve.directory/' },
+      { '@type': 'ListItem', position: 2, name: cfg.crumb || cfg.h1, item: `https://resolve.directory${cfg.path}` }
+    ]
+  };
+  const jsonld = [collection, itemList, breadcrumb];
   if (cfg.faq && cfg.faq.length) {
     jsonld.push({
       '@context': 'https://schema.org',
