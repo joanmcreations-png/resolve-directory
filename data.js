@@ -60,7 +60,8 @@
     { name: "IWLTBAP 10 Free Cinematic LUTs", desc: "10 free LUTs including Blade Runner 2049 and Kodachrome-inspired looks.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://blog.iwltbap.com/the-10-free-cinematic-luts-by-iwltbap/" },
     { name: "Rocket House Pictures GH V-Log LUTs", desc: "Free LUTs made for the Panasonic LUMIX GH series V-Log, no strings attached.", cat: "LUT Pack", tag: "free", cam: "Panasonic", url: "https://rockethousepictures.com/luts.html" },
     { name: "Felipe Idrovo Free Wedding LUT", desc: "Free 33-point wedding LUT for natural skin tones, follow required.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://felipeidrovo.com/free-wedding-cinema-lut/" },
-    { name: "Trub Film Co 35mm Film LUT", desc: "Free 35mm film emulation LUT, turns flat LOG into rich cinema color.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://www.trubfilmco.com/film-lut-download" }
+    { name: "Trub Film Co 35mm Film LUT", desc: "Free 35mm film emulation LUT, turns flat LOG into rich cinema color.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://www.trubfilmco.com/film-lut-download" },
+    { name: "spektrafilm OFX", desc: "Free OFX plugin with spectral film emulation, 17 negative stocks and 9 print stocks modeled from real Kodak and Fujifilm data.", cat: "OFX Plugin", tag: "free", cam: "Any", url: "https://spektrafilm.114c.de/" }
   ];
 
   const seen = {};
@@ -80,14 +81,16 @@
     "LUT Pack": '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="12" height="12" rx="1.5"/><path d="M9 9h12v12H9z" opacity="0.55"/></svg>',
     "Official LUT": '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
     "Grain Pack": '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="6" cy="6" r="1.3"/><circle cx="13" cy="5" r="1"/><circle cx="18" cy="9" r="1.4"/><circle cx="5" cy="14" r="1"/><circle cx="11" cy="12" r="1.4"/><circle cx="17" cy="16" r="1"/><circle cx="8" cy="19" r="1.3"/><circle cx="15" cy="20" r="1"/></svg>',
-    "DCTL Tool": '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg>'
+    "DCTL Tool": '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg>',
+    "OFX Plugin": '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3v4M15 3v4M6 7h12l-1 4a5 5 0 0 1-10 0z"/><path d="M12 15v6"/></svg>'
   };
   const categoryColors = {
     "PowerGrade": "#e8622c",
     "LUT Pack": "#4fae72",
     "Official LUT": "#5b9dd9",
     "Grain Pack": "#c98fd8",
-    "DCTL Tool": "#d9b45b"
+    "DCTL Tool": "#d9b45b",
+    "OFX Plugin": "#8a7fd1"
   };
   const defaultIcon = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/></svg>';
 
@@ -96,7 +99,8 @@
     "LUT Pack": "Go to Project Settings → Color Management → Open LUT Folder, then copy the downloaded .cube file(s) into that folder. Restart DaVinci Resolve, right-click a clip on the Color page, and the LUT will appear under 3D LUTs in the panel on the right.",
     "Official LUT": "Go to Project Settings → Color Management → Open LUT Folder, then copy the downloaded .cube file(s) into that folder. Restart DaVinci Resolve, right-click a clip on the Color page, and the LUT will appear under 3D LUTs in the panel on the right.",
     "Grain Pack": "For LUT/texture files, copy them into Project Settings → Color Management → Open LUT Folder and restart Resolve. For grain or overlay footage, import the clip into your Media Pool and place it on a track above your footage set to Screen or Overlay blend mode.",
-    "DCTL Tool": "Go to Project Settings → Color Management → Open LUT Folder, then copy the .dctl file into the LUT folder's DCTL subfolder. Restart DaVinci Resolve and apply it from the OpenFX/DCTL panel in the Color page's Effects Library."
+    "DCTL Tool": "Go to Project Settings → Color Management → Open LUT Folder, then copy the .dctl file into the LUT folder's DCTL subfolder. Restart DaVinci Resolve and apply it from the OpenFX/DCTL panel in the Color page's Effects Library.",
+    "OFX Plugin": "Run the downloaded installer for your OS (macOS, Windows or Linux) and restart DaVinci Resolve. The plugin installs itself into Resolve's OFX folder automatically. Open the Effects Library on the Color or Edit page, find it under OpenFX, and drag it onto a clip or node."
   };
 
   const data = { grades: grades, categoryIcons: categoryIcons, categoryColors: categoryColors, defaultIcon: defaultIcon, categoryInstall: categoryInstall };
