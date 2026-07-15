@@ -11,6 +11,10 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 const previewsPath = path.join(ROOT, 'previews.json');
 const previews = fs.existsSync(previewsPath) ? JSON.parse(fs.readFileSync(previewsPath, 'utf8')) : {};
 
+// Cache-busting version for styles.css: changes every build so browsers and
+// the GitHub Pages CDN never serve a stale stylesheet with fresh HTML.
+const CSS_V = Date.now().toString(36);
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -243,7 +247,7 @@ ${GTAG}
 <meta name="twitter:image" content="https://resolve.directory/og.png">
 
 ${blocks}
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=${CSS_V}">
 </head>`;
 }
 
@@ -803,5 +807,18 @@ function sitemapXml() {
 }
 
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemapXml());
+
+/* ---------- bump styles.css version in hand-maintained pages ---------- */
+
+['index.html', 'profile/index.html', 'privacy/index.html'].forEach(function (rel) {
+  const p = path.join(ROOT, rel);
+  if (!fs.existsSync(p)) return;
+  const html = fs.readFileSync(p, 'utf8');
+  const updated = html.replace(/href="\/?styles\.css(\?v=[^"]*)?"/g, function (m) {
+    const prefix = m.includes('"/styles') ? '/styles.css' : 'styles.css';
+    return `href="${prefix}?v=${CSS_V}"`;
+  });
+  if (updated !== html) fs.writeFileSync(p, updated);
+});
 
 console.log(`Generated ${grades.length} resource pages, ${generatedHubs.length} hub/guide pages, and updated sitemap.xml`);
