@@ -1,4 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+input, textarea, button, select { font-family: inherit; }
 
 :root {
   --bg: #0b0b0b;
@@ -677,7 +678,7 @@ footer a:hover { color: var(--text); }
 .detail-actions { display: flex; gap: 10px; margin-bottom: 40px; }
 .btn-visit {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   padding: 12px 22px;
   border-radius: 10px;
   font-size: 14px;
