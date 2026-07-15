@@ -60,7 +60,16 @@
     { name: "Rocket House Pictures GH V-Log LUTs", desc: "Free LUTs made for the Panasonic LUMIX GH series V-Log, no strings attached.", cat: "LUT Pack", tag: "free", cam: "Panasonic", url: "https://rockethousepictures.com/luts.html" },
     { name: "Felipe Idrovo Free Wedding LUT", desc: "Free 33-point wedding LUT for natural skin tones, follow required.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://felipeidrovo.com/free-wedding-cinema-lut/" },
     { name: "Trub Film Co 35mm Film LUT", desc: "Free 35mm film emulation LUT, turns flat LOG into rich cinema color.", cat: "LUT Pack", tag: "free", cam: "Any", url: "https://www.trubfilmco.com/film-lut-download" },
-    { name: "spektrafilm OFX", desc: "Free OFX plugin with spectral film emulation, 17 negative stocks and 9 print stocks modeled from real Kodak and Fujifilm data.", cat: "OFX Plugin", tag: "free", cam: "Any", url: "https://spektrafilm.114c.de/" }
+    { name: "spektrafilm OFX", desc: "Free OFX plugin with spectral film emulation, 17 negative stocks and 9 print stocks modeled from real Kodak and Fujifilm data.", cat: "OFX Plugin", tag: "free", cam: "Any", url: "https://spektrafilm.114c.de/" },
+    { name: "Rocket Rooster Eterna PowerGrade", desc: "Free Fujifilm Eterna-inspired film emulation PowerGrade.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://rocketrooster.sellfy.store/p/rocket-rooster-eterna-powergrade/" },
+    { name: "2383 Free PowerGrade", desc: "Free Kodak 2383 print film emulation PowerGrade by Christopher Balladarez.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://729731420154.gumroad.com/l/2383FreePowergrade" },
+    { name: "Soft Toast Films Base PowerGrade", desc: "Free base node tree PowerGrade shared by Runhaar of Soft Toast Films.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://www.softtoastfilms.com/powergrades" },
+    { name: "Film Simplified Basic Grade PowerGrade", desc: "Free basic grade PowerGrade to start your color pipeline in Resolve.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://filmsimplified.com/davinci-resolve-powergrades/1" },
+    { name: "veresdenialex Basic Node Tree", desc: "Free foundational DaVinci Resolve node tree PowerGrade, works with any camera.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://www.veresdenialex.com/product-page/davinci-resolve-basic-node-tree" },
+    { name: "Resolved Tools Beginner PowerGrade", desc: "Free beginner-friendly PowerGrade with a clean, organized node structure.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://www.resolvedtools.com/product/beginner-powergrade" },
+    { name: "Cody Scott Canon EOS-R PowerGrade", desc: "Free PowerGrade built for Canon EOS-R footage in DaVinci Resolve.", cat: "PowerGrade", tag: "free", cam: "Canon", url: "https://videographybusinessmastery.sellfy.store/p/bmpcc6k-gen-5-power-grade-8kmnvt" },
+    { name: "Joshua Kirk Custom Curve PowerGrades", desc: "Free custom curve PowerGrades for precise contrast shaping in Resolve.", cat: "PowerGrade", tag: "free", cam: "Any", url: "https://joshuakirknz.gumroad.com/l/customcurves" },
+    { name: "TDCAT Free 4K Film Grain Plates", desc: "Free DCI 4K scanned film grain plates for overlaying real texture.", cat: "Grain Pack", tag: "free", cam: "Any", url: "https://tdcat.com/downloads/filmgrain" }
   ];
 
   const seen = {};

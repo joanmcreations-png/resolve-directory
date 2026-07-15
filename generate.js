@@ -6,6 +6,11 @@ const ROOT = __dirname;
 const outDir = path.join(ROOT, 'grade');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 
+// Optional per-resource preview images (og:image of each target site).
+// Refresh with: node fetch-previews.js
+const previewsPath = path.join(ROOT, 'previews.json');
+const previews = fs.existsSync(previewsPath) ? JSON.parse(fs.readFileSync(previewsPath, 'utf8')) : {};
+
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -329,7 +334,11 @@ ${HEADER}
   </div>
 
   <p class="detail-desc">${escapeHtml(g.desc)}</p>
-
+${previews[g.slug] ? `
+  <a class="detail-preview" href="${g.url}" target="_blank" rel="noopener noreferrer">
+    <img src="${escapeHtml(previews[g.slug])}" alt="Preview of ${escapeHtml(g.name)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
+  </a>
+` : ''}
   <div class="detail-meta">
     <span class="cat-dot" style="background:${catColor}"></span>
     <span>${escapeHtml(g.cat)}</span>

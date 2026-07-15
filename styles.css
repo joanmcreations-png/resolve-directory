@@ -7,7 +7,7 @@ input, textarea, button, select { font-family: inherit; }
   --border: rgba(255,255,255,0.09);
   --text: #f2f0ec;
   --text-dim: #98938a;
-  --text-faint: #59564f;
+  --text-faint: #807b70;
   --accent: #e8622c;
   --free: #4fae72;
   --font: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -693,6 +693,23 @@ footer a:hover { color: var(--text); }
 .btn-visit:hover { opacity: 0.9; }
 .btn-visit:active { transform: scale(0.98); }
 
+.detail-preview {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: var(--bg-soft);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.detail-preview:hover { border-color: rgba(232,98,44,0.35); transform: translateY(-2px); }
+.detail-preview img {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+}
+
 details.install {
   background: var(--bg-soft);
   border: 1px solid var(--border);
@@ -758,13 +775,25 @@ details.install p {
 .profile-signed-out a { color: var(--accent); }
 
 .profile-cover {
-  height: 140px;
+  height: 150px;
   border-radius: 16px;
   background:
-    repeating-linear-gradient(135deg, transparent 0 10px, rgba(255,255,255,0.02) 10px 11px),
+    radial-gradient(ellipse 70% 120% at 85% -20%, rgba(232,98,44,0.22), transparent 60%),
+    radial-gradient(ellipse 50% 100% at 10% 120%, rgba(232,98,44,0.08), transparent 55%),
     linear-gradient(135deg, var(--bg-soft), var(--bg));
   border: 1px solid var(--border);
-  margin-bottom: -40px;
+  margin-bottom: -44px;
+  position: relative;
+  overflow: hidden;
+}
+.profile-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
 }
 
 .profile-head {
@@ -776,17 +805,19 @@ details.install p {
 }
 
 .profile-avatar {
-  width: 84px;
-  height: 84px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   border: 4px solid var(--bg);
+  outline: 1px solid var(--border);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.45);
   background: var(--bg-soft);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 700;
   color: var(--text-dim);
 }
@@ -795,31 +826,39 @@ details.install p {
 .profile-info { flex: 1; min-width: 0; padding-bottom: 6px; }
 .profile-info h1 {
   font-family: var(--font);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 2px;
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
 }
-.profile-meta { font-size: 13px; color: var(--text-faint); }
+.profile-meta { font-size: 13.5px; color: var(--text-dim); }
 
 .profile-details {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 6px 20px;
+  padding: 8px 22px;
   margin-bottom: 20px;
 }
 .profile-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 0;
+  gap: 16px;
+  padding: 15px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 13.5px;
+  font-size: 14px;
 }
 .profile-row:last-child { border-bottom: none; }
-.profile-row-label { color: var(--text-faint); }
-.profile-row-value { color: var(--text); font-weight: 500; }
+.profile-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+.profile-row-value { color: var(--text); font-weight: 500; overflow-wrap: anywhere; text-align: right; }
 .profile-row-value a { color: var(--accent); }
 
 .profile-empty {
@@ -992,7 +1031,7 @@ details.install p {
   font-size: 13px;
 }
 .quick-links a {
-  color: var(--text-faint);
+  color: var(--text-dim);
   transition: color 0.15s;
 }
 .quick-links a:hover { color: var(--accent); }
