@@ -792,8 +792,8 @@ details.install p {
 .cover-edit-btn {
   position: absolute;
   right: 12px;
-  bottom: 12px;
-  z-index: 1;
+  top: 12px;
+  z-index: 2;
   font-family: var(--font);
   font-size: 12px;
   font-weight: 500;
@@ -804,12 +804,10 @@ details.install p {
   padding: 6px 14px;
   cursor: pointer;
   backdrop-filter: blur(6px);
-  opacity: 0;
+  opacity: 0.75;
   transition: opacity 0.15s ease, border-color 0.15s ease;
 }
-.profile-cover:hover .cover-edit-btn, .cover-edit-btn:focus-visible { opacity: 1; }
-.cover-edit-btn:hover { border-color: var(--text-faint); }
-@media (hover: none) { .cover-edit-btn { opacity: 1; } }
+.cover-edit-btn:hover { opacity: 1; border-color: var(--text-faint); }
 
 .profile-cover::after {
   content: "";
