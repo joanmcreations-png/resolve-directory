@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P06PPE9EV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1P06PPE9EV');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Install a LUT in DaVinci Resolve (Step by Step) | resolve.directory</title>
+<meta name="description" content="A simple step-by-step guide to installing and applying LUTs in DaVinci Resolve — where the LUT folder is, how to import .cube files, and how to apply them on the Color page.">
+<link rel="canonical" href="https://resolve.directory/guides/how-to-install-luts-in-davinci-resolve/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resolve.directory/guides/how-to-install-luts-in-davinci-resolve/">
+<meta property="og:title" content="How to install a LUT in DaVinci Resolve">
+<meta property="og:description" content="A simple step-by-step guide to installing and applying LUTs in DaVinci Resolve — where the LUT folder is, how to import .cube files, and how to apply them on the Color page.">
+<meta property="og:image" content="https://resolve.directory/og.png">
+<meta property="og:site_name" content="resolve.directory">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to install a LUT in DaVinci Resolve">
+<meta name="twitter:description" content="A simple step-by-step guide to installing and applying LUTs in DaVinci Resolve — where the LUT folder is, how to import .cube files, and how to apply them on the Color page.">
+<meta name="twitter:image" content="https://resolve.directory/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to install a LUT in DaVinci Resolve",
+  "description": "A simple step-by-step guide to installing and applying LUTs in DaVinci Resolve — where the LUT folder is, how to import .cube files, and how to apply them on the Color page.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the LUT folder",
+      "text": "In DaVinci Resolve go to Project Settings → Color Management and click \"Open LUT Folder\"."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Copy your .cube files",
+      "text": "Copy the downloaded .cube LUT files into that folder. You can create subfolders to stay organized."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Refresh the LUT list",
+      "text": "Back in Color Management click \"Update Lists\", or restart DaVinci Resolve, so it picks up the new LUTs."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Apply the LUT",
+      "text": "On the Color page, right-click a clip or node, choose LUTs, and pick your LUT. You can also drag it onto a node from the LUT browser."
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where is the LUT folder in DaVinci Resolve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The quickest way is Project Settings → Color Management → Open LUT Folder, which opens the exact folder Resolve scans for LUTs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my LUT not show up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Make sure it is a .cube file inside the LUT folder, then click Update Lists in Color Management or restart Resolve so it re-scans the folder."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do LUTs work in the free version of DaVinci Resolve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. 3D .cube LUTs work the same in the free version and in DaVinci Resolve Studio."
+      }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/index.html">
+    <svg class="mark" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+      <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+      <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+    </svg>
+    RESOLVE<span class="name"> Directory</span>
+  </a>
+  <nav class="top">
+    <a class="link" href="/index.html#list">Grades</a>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="submitBtn"><span class="full-label">Submit a Resource</span><span class="short-label">Submit</span></button>
+      <div class="popover" id="submitPopover">
+        <p>Share a link to a free LUT or PowerGrade you found.</p>
+        <div class="popover-row" id="submitForm">
+          <input type="url" id="submitInput" placeholder="https://..." required>
+          <button class="btn-solid" id="submitSubmit">Send</button>
+        </div>
+        <p class="success" id="submitSuccess">Thanks — we'll take a look and add it.</p>
+      </div>
+    </div>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="notifyBtn"><span class="full-label">Get notified</span><span class="short-label">Notify</span></button>
+      <div class="popover" id="popover">
+        <p>Get an email when new grades are added.</p>
+        <div class="popover-row" id="popoverForm">
+          <input type="email" id="emailInput" placeholder="you@email.com" required>
+          <button class="btn-solid" id="popoverSubmit">Notify me</button>
+        </div>
+        <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
+      </div>
+    </div>
+    <div class="notify-wrap" id="authArea">
+      <button class="btn-outline" id="signInBtn">Sign In</button>
+      <div class="popover" id="signInPopover">
+        <p>Sign in to submit resources under your name and get a profile.</p>
+        <div class="oauth-row">
+          <button class="btn-oauth" id="googleSignIn">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28v-3.1H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.38l4-3.1z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.27 6.62l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Install a LUT</span>
+  </div>
+
+  <h1 class="hub-h1">How to install a LUT in DaVinci Resolve</h1>
+  <p class="hub-intro">A LUT (Look-Up Table) is a small file that remaps the color and contrast of your footage — either to convert log footage to a standard Rec.709 base, or to apply a creative "look" in one click. Here's exactly how to install and apply one in DaVinci Resolve. It takes about a minute.</p>
+
+  <section class="guide-prose">
+    <h2>1. Download your LUT</h2>
+    <p>Grab a <code>.cube</code> file — the standard 3D LUT format Resolve reads natively. Browse the <a href="/luts/">free LUT packs</a> or the <a href="/official-luts/">official camera log LUTs</a> in the directory if you need one.</p>
+
+    <h2>2. Open the LUT folder</h2>
+    <p>In DaVinci Resolve, open <strong>Project Settings</strong> (the gear icon, bottom right) → <strong>Color Management</strong>, then click <strong>Open LUT Folder</strong>. This opens the exact folder Resolve scans for LUTs, so you don't have to hunt for it manually.</p>
+
+    <h2>3. Copy the .cube files in</h2>
+    <p>Drop your downloaded <code>.cube</code> files into that folder. You can make subfolders (for example one per camera or per pack) to keep things tidy — Resolve shows them as groups.</p>
+
+    <h2>4. Refresh the list</h2>
+    <p>Back in Color Management, click <strong>Update Lists</strong>. If the LUT still doesn't appear, fully restart DaVinci Resolve so it re-scans the folder.</p>
+
+    <h2>5. Apply it on the Color page</h2>
+    <p>Go to the <strong>Color</strong> page, right-click a clip's thumbnail or a node, choose <strong>LUTs</strong>, and pick your LUT. You can also open the <strong>LUTs</strong> browser in the top-left and drag a LUT straight onto a node. Put the LUT on its own node so you can dial back its strength with the node's Key Output gain.</p>
+
+    <h2>Log footage? Start with the official LUT</h2>
+    <p>If you shot in a log profile (S-Log, C-Log, N-Log, V-Log, D-Log, Log-C), apply your camera's official conversion LUT first to get a correct Rec.709 base, then build your creative grade on top. Jump to your camera:</p>
+    <div class="guide-cams">
+      <a href="/camera/sony/">Sony</a>
+      <a href="/camera/panasonic/">Panasonic</a>
+      <a href="/camera/dji/">DJI</a>
+      <a href="/camera/nikon/">Nikon</a>
+      <a href="/camera/canon/">Canon</a>
+      <a href="/camera/arri/">ARRI</a>
+      <a href="/camera/red/">RED</a>
+    </div>
+  </section>
+
+  <section class="hub-faq">
+    <h2>Frequently asked</h2>
+    <div class="faq-item"><h3>Where is the LUT folder in DaVinci Resolve?</h3><p>The quickest way is Project Settings → Color Management → Open LUT Folder, which opens the exact folder Resolve scans for LUTs.</p></div>
+    <div class="faq-item"><h3>Why does my LUT not show up?</h3><p>Make sure it's a .cube file inside the LUT folder, then click Update Lists in Color Management or restart Resolve so it re-scans the folder.</p></div>
+    <div class="faq-item"><h3>Do LUTs work in the free version of DaVinci Resolve?</h3><p>Yes. 3D .cube LUTs work the same in the free version and in DaVinci Resolve Studio.</p></div>
+  </section>
+
+  <nav class="hub-related">
+    <h2>Keep exploring</h2>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
+    <a href="/powergrades/">Free PowerGrades</a>
+    <a href="/official-luts/">Official camera log LUTs</a>
+  </nav>
+</div>
+
+<footer>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <a href="/index.html#list">Grades</a>
+      <a href="#" id="footerSubmit">Submit a Resource</a>
+    </div>
+    <div class="footer-col">
+      <h3>Browse</h3>
+      <a href="/luts/">Free LUTs</a>
+      <a href="/powergrades/">PowerGrades</a>
+      <a href="/official-luts/">Official log LUTs</a>
+      <a href="/guides/">Guides</a>
+    </div>
+    <div class="footer-col">
+      <h3>Account</h3>
+      <a href="#" id="footerSignIn">Sign In</a>
+      <a href="#" id="footerNotify">Get notified</a>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <a href="/privacy/">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+        <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+        <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+      </svg>
+      resolve.directory
+    </div>
+  </div>
+  <p class="footer-disclaimer">Not affiliated with Blackmagic Design.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth.js"></script>
+<script>
+  const notifyBtn = document.getElementById('notifyBtn');
+  const popover = document.getElementById('popover');
+  const popoverForm = document.getElementById('popoverForm');
+  const popoverSuccess = document.getElementById('popoverSuccess');
+
+  const submitBtn = document.getElementById('submitBtn');
+  const submitPopover = document.getElementById('submitPopover');
+  const submitForm = document.getElementById('submitForm');
+  const submitSuccess = document.getElementById('submitSuccess');
+
+  const signInPopover = document.getElementById('signInPopover');
+
+  notifyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    submitPopover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    popover.classList.toggle('open');
+  });
+
+  submitBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    submitPopover.classList.toggle('open');
+  });
+
+  document.getElementById('signInBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    submitPopover.classList.remove('open');
+    signInPopover.classList.toggle('open');
+  });
+
+  document.getElementById('googleSignIn').addEventListener('click', () => signInWithGoogle());
+
+  document.addEventListener('click', (e) => {
+    if (!popover.contains(e.target) && e.target !== notifyBtn) {
+      popover.classList.remove('open');
+    }
+    if (!submitPopover.contains(e.target) && e.target !== submitBtn) {
+      submitPopover.classList.remove('open');
+    }
+    if (!signInPopover.contains(e.target) && e.target.id !== 'signInBtn') {
+      signInPopover.classList.remove('open');
+    }
+  });
+
+  document.getElementById('popoverSubmit').addEventListener('click', () => {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'resolve.directory detail page' })
+    }).catch(() => {});
+    window.supabaseClient.from('subscribers').insert({ email: email, source: 'resolve.directory detail page' }).then(() => {});
+    popoverForm.style.display = 'none';
+    popoverSuccess.classList.add('show');
+  });
+
+  document.getElementById('submitSubmit').addEventListener('click', () => {
+    const url = document.getElementById('submitInput').value;
+    if (!url || !url.includes('.')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ resource_url: url, source: 'resolve.directory detail submission' })
+    }).catch(() => {});
+    submitForm.style.display = 'none';
+    submitSuccess.classList.add('show');
+  });
+
+  function footerLinkTo(headerBtn) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => headerBtn.click(), 350);
+  }
+  document.getElementById('footerSubmit').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(submitBtn); });
+  document.getElementById('footerSignIn').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(document.getElementById('signInBtn')); });
+  document.getElementById('footerNotify').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(notifyBtn); });
+</script>
+
+</body>
+</html>

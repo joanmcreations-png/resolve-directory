@@ -71,4 +71,17 @@ if (!window.__resolveAuthLoaded) {
   };
 
   document.addEventListener('DOMContentLoaded', window.renderAuthUI);
+
+  // The Google redirect lands with #access_token=... in the URL. Supabase
+  // parses it asynchronously, so the initial renderAuthUI() call above can
+  // fire before the session exists. This listener re-renders once the SDK
+  // actually finishes processing it, and strips the token from the URL.
+  window.supabaseClient.auth.onAuthStateChange((event) => {
+    if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+      window.renderAuthUI();
+      if (window.location.hash.includes('access_token')) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    }
+  });
 }
