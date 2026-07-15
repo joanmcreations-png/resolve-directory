@@ -78,7 +78,10 @@
 </div>
 
 <div class="profile-wrap" id="profileContent" style="display:none">
-  <div class="profile-cover"></div>
+  <div class="profile-cover" id="profileCover">
+    <button class="cover-edit-btn" id="coverEditBtn" type="button">Change cover</button>
+    <input type="file" id="coverInput" accept="image/png,image/jpeg,image/webp" style="display:none">
+  </div>
   <div class="profile-head">
     <div class="profile-avatar" id="profileAvatar"></div>
     <div class="profile-info">
@@ -255,7 +258,45 @@
     document.getElementById('profileJoined').textContent = currentProfile && currentProfile.created_at
       ? `Joined resolve.directory ${fmtMonthYear(currentProfile.created_at)}`
       : '';
+
+    const cover = document.getElementById('profileCover');
+    if (currentProfile && currentProfile.cover_url) {
+      cover.style.backgroundImage = `url("${currentProfile.cover_url}")`;
+      cover.classList.add('has-image');
+    } else {
+      cover.style.backgroundImage = '';
+      cover.classList.remove('has-image');
+    }
   }
+
+  // ---------- Cover upload ----------
+  const coverInput = document.getElementById('coverInput');
+  document.getElementById('coverEditBtn').addEventListener('click', () => coverInput.click());
+  coverInput.addEventListener('change', async () => {
+    const file = coverInput.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5 MB.'); return; }
+    const btn = document.getElementById('coverEditBtn');
+    btn.textContent = 'Uploading…';
+    btn.disabled = true;
+    try {
+      const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
+      const path = `${currentUser.id}/cover.${ext}`;
+      const { error: upErr } = await window.supabaseClient.storage.from('covers').upload(path, file, { upsert: true, contentType: file.type });
+      if (upErr) throw upErr;
+      const { data } = window.supabaseClient.storage.from('covers').getPublicUrl(path);
+      const coverUrl = `${data.publicUrl}?t=${Date.now()}`;
+      await saveProfile(currentUser.id, { cover_url: coverUrl });
+      currentProfile = Object.assign({}, currentProfile, { cover_url: coverUrl });
+      renderProfile();
+    } catch (e) {
+      alert('Could not upload the image. Please try again.');
+    } finally {
+      btn.textContent = 'Change cover';
+      btn.disabled = false;
+      coverInput.value = '';
+    }
+  });
 
   async function initProfilePage() {
     currentUser = await getCurrentUser();
