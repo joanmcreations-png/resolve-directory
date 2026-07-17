@@ -920,15 +920,582 @@ ${SCRIPTS}
 `;
 }
 
+/* ---------- data-driven guide system ----------
+   Add a guide by dropping an object into NEW_GUIDES. Each one becomes a
+   fully SEO-optimized page (HowTo + FAQ + Breadcrumb JSON-LD, internal links)
+   and is auto-listed on the /guides/ index and in the sitemap. */
+
+const NEW_GUIDES = [
+  {
+    slug: 'how-to-color-grade-in-davinci-resolve',
+    crumb: 'Color grade (beginner)',
+    title: 'How to Color Grade in DaVinci Resolve (Beginner Guide) | resolve.directory',
+    h1: 'How to color grade in DaVinci Resolve',
+    desc: 'A beginner-friendly color grading workflow for DaVinci Resolve — balance the shot, convert log to Rec.709, add contrast and a creative look, then match your clips. Works in the free version.',
+    blurb: 'The full beginner workflow: balance, convert, contrast, creative look and match — step by step.',
+    intro: 'Color grading looks intimidating, but almost every good grade follows the same order: get the image neutral and correct first, then build a look on top. Here is a simple, repeatable workflow you can use on the DaVinci Resolve Color page — all of it works in the free version.',
+    howtoSteps: [
+      { name: 'Balance the shot', text: 'Use the primary color wheels and scopes to set correct exposure and white balance so the image is neutral before any look.' },
+      { name: 'Normalize log footage', text: 'If you shot log, add a Color Space Transform or camera LUT on its own node to convert to Rec.709.' },
+      { name: 'Add contrast and saturation', text: 'On a new node, add contrast with the curve or the Contrast/Pivot controls and lift saturation slightly.' },
+      { name: 'Create your look', text: 'On another node, push color into the shadows and highlights for a creative look — for example teal shadows and warm skin.' },
+      { name: 'Match the rest of your clips', text: 'Grade one hero shot, then use Shot Match or copy the grade to keep every clip consistent.' }
+    ],
+    sections: [
+      { h2: '1. Work left to right with nodes', html: '<p>Every grade lives on the <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node tree</a> in the bottom-right of the Color page. Keep each job on its own node — one for balance, one for conversion, one for contrast, one for the look. That way you can turn any step off or dial it back later without starting over.</p>' },
+      { h2: '2. Balance before you get creative', html: '<p>Open the <strong>Waveform</strong> and <strong>Parade</strong> <a href="/guides/how-to-read-scopes-in-davinci-resolve/">scopes</a>. Use the <strong>Lift / Gamma / Gain</strong> wheels to set your blacks near the bottom and highlights near the top without clipping, and balance the red, green and blue channels so a neutral object reads neutral. Do this by eye <em>and</em> by scope — the scopes do not lie.</p>' },
+      { h2: '3. Convert log footage to Rec.709', html: '<p>Log footage looks flat and grey on purpose. Add a <strong>Color Space Transform</strong> node (or your <a href="/official-luts/">camera\'s official log LUT</a>) to bring it to a correct Rec.709 base before grading. Full walkthrough: <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">converting log to Rec.709</a>.</p>' },
+      { h2: '4. Add contrast, then a look', html: '<p>On a fresh node, add contrast with the <a href="/guides/how-to-use-curves-in-davinci-resolve/">Custom curve</a> (a gentle S-shape) and nudge saturation. Then on another node build the creative look — a <a href="/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/">teal-and-orange</a> split, a warm nostalgic tone, or a cold thriller feel.</p>' },
+      { h2: '5. Use a PowerGrade or LUT to shortcut it', html: '<p>Once you understand the steps, a ready-made <a href="/powergrades/">PowerGrade</a> or <a href="/luts/">LUT</a> from the directory can get you 80% of the way in one click — then you fine-tune. That is the fastest way to learn what a good grade is actually doing.</p>' }
+    ],
+    faqs: [
+      ['Can you color grade in the free version of DaVinci Resolve?', 'Yes. The entire primary and secondary color grading toolset — wheels, curves, nodes, scopes, Color Space Transform and LUTs — is available in the free version. The main paid extras are noise reduction, HDR tools and some OFX effects.'],
+      ['What is the difference between color correction and color grading?', 'Color correction makes the image technically neutral and consistent (exposure and white balance). Color grading is the creative step on top — the mood, palette and look. In practice you do correction first, then grading.'],
+      ['What order should I grade in?', 'Balance and correct exposure and white balance first, normalize log footage to Rec.709, add contrast and saturation, then build your creative look, and finally match all your shots to each other.']
+    ],
+    related: [
+      ['/guides/how-to-convert-log-to-rec709-in-davinci-resolve/', 'Convert log to Rec.709'],
+      ['/guides/how-to-get-a-cinematic-look-in-davinci-resolve/', 'Get a cinematic look'],
+      ['/luts/', 'Free LUTs for DaVinci Resolve']
+    ]
+  },
+  {
+    slug: 'how-to-convert-log-to-rec709-in-davinci-resolve',
+    crumb: 'Log to Rec.709',
+    title: 'How to Convert Log to Rec.709 in DaVinci Resolve (2 Ways) | resolve.directory',
+    h1: 'How to convert log to Rec.709 in DaVinci Resolve',
+    desc: 'Two clean ways to convert log footage to Rec.709 in DaVinci Resolve — the Color Space Transform node and the official camera LUT — so you start every grade from a correct base.',
+    blurb: 'Two clean ways to normalize flat log footage — Color Space Transform vs the official camera LUT.',
+    intro: 'Log footage (S-Log, C-Log, N-Log, V-Log, D-Log, Log-C) is recorded flat and desaturated to hold more dynamic range. Before you grade, you convert it to the standard Rec.709 display space. There are two reliable ways to do it in DaVinci Resolve, and both work in the free version.',
+    howtoSteps: [
+      { name: 'Add a node for the conversion', text: 'On the Color page, add a serial node dedicated to the log-to-Rec.709 conversion so you can keep it separate from your grade.' },
+      { name: 'Add a Color Space Transform', text: 'Open the Effects/OpenFX panel, drag Color Space Transform onto the node.' },
+      { name: 'Set input and output', text: 'Set Input Color Space and Gamma to your camera log profile, and Output to Rec.709 / Gamma 2.4.' },
+      { name: 'Grade after the conversion', text: 'Add your contrast, balance and creative look on nodes after the conversion node.' }
+    ],
+    sections: [
+      { h2: 'Method 1 — Color Space Transform (recommended)', html: '<p>Add a node, then apply the <strong>Color Space Transform</strong> ResolveFX to it. Set <strong>Input Color Space</strong> and <strong>Input Gamma</strong> to match your camera (for example <em>Sony S-Gamut3.Cine / S-Log3</em>), and set <strong>Output Color Space</strong> to <strong>Rec.709</strong> and <strong>Output Gamma</strong> to <strong>Gamma 2.4</strong>. This is a mathematical conversion, so it is precise and easy to tweak.</p>' },
+      { h2: 'Method 2 — the official camera LUT', html: '<p>Drop your camera\'s official conversion LUT onto a node instead. It is a one-click "baked" version of the same idea. Grab the correct one from the <a href="/official-luts/">official camera log LUT library</a> and see <a href="/guides/how-to-install-luts-in-davinci-resolve/">how to install a LUT</a>. LUTs are convenient but less flexible than a Color Space Transform.</p>' },
+      { h2: 'Put the conversion on its own node', html: '<p>Whichever method you use, keep the conversion on a dedicated node <em>before</em> your grade. That way you can balance the shot before it and build the look after it, and you can disable the conversion to check the raw log at any time.</p>' },
+      { h2: 'Or color-manage the whole project', html: '<p>For mixed cameras, switch <strong>Project Settings → Color Management</strong> to <strong>DaVinci YRGB Color Managed</strong> and set the timeline to Rec.709. Resolve then converts every clip automatically. See <a href="/guides/davinci-resolve-color-management-settings-explained/">color management settings explained</a>.</p>' }
+    ],
+    faqs: [
+      ['Should I use a LUT or Color Space Transform for log conversion?', 'Color Space Transform is generally cleaner and more flexible because it is a precise math conversion you can adjust. Official LUTs are faster and fine for most work, but they bake in a fixed tone curve.'],
+      ['What output gamma should I use for Rec.709?', 'Gamma 2.4 is standard for video viewed on a calibrated Rec.709 monitor. If your footage looks too dark on typical web and phone screens, some people use Gamma 2.2 instead.'],
+      ['Why does my footage look too contrasty after conversion?', 'That usually means the input color space or gamma does not match how the footage was shot. Double-check your camera\'s exact log profile and set the input to match it.']
+    ],
+    related: [
+      ['/official-luts/', 'Official camera log LUTs'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade (beginner)'],
+      ['/guides/davinci-resolve-color-management-settings-explained/', 'Color management explained']
+    ]
+  },
+  {
+    slug: 'how-to-get-a-cinematic-look-in-davinci-resolve',
+    crumb: 'Cinematic look',
+    title: 'How to Get a Cinematic Look in DaVinci Resolve (Free) | resolve.directory',
+    h1: 'How to get a cinematic look in DaVinci Resolve',
+    desc: 'The practical steps behind a cinematic look in DaVinci Resolve — correct exposure, log conversion, soft contrast, color separation, skin tones, grain and a subtle vignette. Free-version friendly.',
+    blurb: 'What actually makes footage look cinematic: contrast, color separation, skin tones, grain and a vignette.',
+    intro: '"Cinematic" is not one slider — it is a stack of small, deliberate choices. Here is what actually creates that filmic feel in DaVinci Resolve, and how to build it up in order. None of this requires DaVinci Resolve Studio.',
+    sections: [
+      { h2: 'Start from a correct image', html: '<p>A cinematic grade falls apart on a badly exposed or wrongly balanced shot. <a href="/guides/how-to-color-grade-in-davinci-resolve/">Balance the image</a> and, if you shot log, <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">convert to Rec.709</a> first. Everything below sits on top of that.</p>' },
+      { h2: 'Soft, filmic contrast', html: '<p>Film does not clip to pure black. Use the <a href="/guides/how-to-use-curves-in-davinci-resolve/">Custom curve</a> to add a gentle S-shape, then lift the very bottom of the curve slightly so your shadows sit a touch above pure black. That milky "film black" is a big part of the look.</p>' },
+      { h2: 'Separate your colors', html: '<p>Push cool tones into the shadows and warm tones into the highlights so the palette is not muddy. The classic version is <a href="/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/">teal and orange</a>, but any complementary split reads as intentional and cinematic.</p>' },
+      { h2: 'Protect skin tones', html: '<p>Whatever you do to the palette, keep skin looking healthy. Use a <a href="/guides/how-to-fix-skin-tones-in-davinci-resolve/">qualifier or the skin-tone line on the vectorscope</a> to hold faces near natural while the rest of the frame gets stylized.</p>' },
+      { h2: 'Grain and a subtle vignette', html: '<p>Finish with a light layer of <a href="/guides/how-to-add-film-grain-in-davinci-resolve/">film grain</a> to break up digital cleanliness, and a very subtle <a href="/guides/how-to-add-a-vignette-in-davinci-resolve/">vignette</a> to pull the eye to your subject. Keep both gentle — the second someone notices them, they are too strong.</p>' },
+      { h2: 'Shortcut it with a PowerGrade', html: '<p>A well-built <a href="/powergrades/">PowerGrade</a> already contains this whole stack as editable nodes, so you can apply it and then adjust each part. It is also the best way to reverse-engineer how a look was made.</p>' }
+    ],
+    faqs: [
+      ['What makes footage look cinematic?', 'Mostly: correct exposure, soft film-like contrast that does not crush the blacks, deliberate color separation, natural skin tones, a light grain texture, and a subtle vignette — plus a widescreen aspect ratio and motion-blur-friendly shutter speed at the shooting stage.'],
+      ['Do I need DaVinci Resolve Studio for a cinematic look?', 'No. Curves, color wheels, qualifiers, vignettes and LUTs are all in the free version. Studio adds noise reduction and the built-in Film Grain OFX, but you can add grain for free using overlay plates.'],
+      ['Why does my grade look fake or over-done?', 'Usually the contrast or color push is too strong, or skin tones drifted. Dial the whole look node back with its Key Output gain and re-check faces on the vectorscope.']
+    ],
+    related: [
+      ['/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/', 'Teal and orange look'],
+      ['/guides/how-to-add-film-grain-in-davinci-resolve/', 'Add film grain'],
+      ['/powergrades/', 'Free PowerGrades']
+    ]
+  },
+  {
+    slug: 'davinci-resolve-color-management-settings-explained',
+    crumb: 'Color management',
+    title: 'DaVinci Resolve Color Management Settings Explained | resolve.directory',
+    h1: 'DaVinci Resolve color management settings explained',
+    desc: 'What DaVinci YRGB vs DaVinci YRGB Color Managed actually do, and how to set color management for LUT-based grading or automatic RCM. Plain-English guide.',
+    blurb: 'DaVinci YRGB vs Color Managed (RCM), explained in plain English — and which to pick.',
+    intro: 'The Color Management panel in Project Settings decides how DaVinci Resolve interprets your footage before you grade it. Getting it right once saves a lot of confusion. Here is what the main options do and when to use each.',
+    sections: [
+      { h2: 'Where to find it', html: '<p>Open <strong>Project Settings</strong> (gear icon, bottom-right) → <strong>Color Management</strong>. The key control is <strong>Color science</strong> at the top.</p>' },
+      { h2: 'DaVinci YRGB — manual', html: '<p>The classic mode. Resolve does <em>not</em> auto-convert anything; you handle log conversion yourself with a <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">Color Space Transform or a LUT</a>. Choose this if you want full manual control or you are following LUT-based tutorials.</p>' },
+      { h2: 'DaVinci YRGB Color Managed (RCM) — automatic', html: '<p>You tell Resolve your <strong>Input</strong> color space (or set it per clip), a <strong>Timeline</strong> color space, and an <strong>Output</strong> color space, and it converts everything automatically. Great for mixed cameras — set Timeline and Output to <strong>Rec.709 / Gamma 2.4</strong> and every clip is normalized for you.</p>' },
+      { h2: 'Setting input color space per clip', html: '<p>In Color Managed mode, right-click any clip on the Color page → <strong>Input Color Space</strong> to override its camera profile. This is how you fix a clip that came in looking wrong.</p>' },
+      { h2: 'Which should you pick?', html: '<p>New to grading or mixing cameras? Use <strong>Color Managed</strong> — it is the most forgiving. Following LUT tutorials or want manual control? Use <strong>DaVinci YRGB</strong> and convert with a node. Neither is "more professional"; they are just different workflows.</p>' }
+    ],
+    faqs: [
+      ['What is the difference between DaVinci YRGB and DaVinci YRGB Color Managed?', 'DaVinci YRGB does no automatic color conversion — you convert log footage yourself with a node or LUT. DaVinci YRGB Color Managed (RCM) converts every clip from its input color space to your chosen timeline and output space automatically.'],
+      ['Should I use Resolve Color Management?', 'It is a great default if you shoot on multiple cameras or are still learning, because it normalizes everything to Rec.709 for you. If you prefer manual LUT-based grading, the standard DaVinci YRGB mode gives you more direct control.'],
+      ['What timeline color space should I use?', 'For standard online video, Rec.709 with Gamma 2.4 (or Gamma 2.2 for web-leaning delivery). Use a wider space only if you are mastering for HDR.']
+    ],
+    related: [
+      ['/guides/how-to-convert-log-to-rec709-in-davinci-resolve/', 'Convert log to Rec.709'],
+      ['/official-luts/', 'Official camera log LUTs'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade']
+    ]
+  },
+  {
+    slug: 'how-to-use-nodes-in-davinci-resolve',
+    crumb: 'Nodes',
+    title: 'How to Use Nodes in DaVinci Resolve (Serial, Parallel, Layer) | resolve.directory',
+    h1: 'How to use nodes in DaVinci Resolve',
+    desc: 'Understand the DaVinci Resolve node tree — serial, parallel and layer nodes, when to use each, and how to keep a clean, editable grade.',
+    blurb: 'Serial, parallel and layer nodes — what each one does and how to keep a clean grade.',
+    intro: 'The node tree is where a DaVinci Resolve grade actually lives. Once nodes click, everything else gets easier. Here is what the main node types do and how to structure a grade that stays editable.',
+    sections: [
+      { h2: 'What a node is', html: '<p>Each node is one adjustment layer in the bottom-right of the Color page. Signal flows left to right, node to node. Keeping one job per node — balance, conversion, contrast, look — means you can turn any step off without touching the rest.</p>' },
+      { h2: 'Serial nodes (Alt/Opt + S)', html: '<p>The default. A serial node stacks <em>after</em> the previous one, so each change builds on the last. Most of your grade is a chain of serial nodes flowing left to right.</p>' },
+      { h2: 'Parallel nodes', html: '<p>Parallel nodes split the signal, let you grade each branch separately, then mix them back together equally. Useful when two adjustments would fight each other if stacked — for example warming highlights and cooling shadows independently.</p>' },
+      { h2: 'Layer nodes', html: '<p>Like parallel, but the lower layer sits <em>on top of</em> the upper one, so order matters. Layer nodes are handy for compositing a strong local effect over the base grade.</p>' },
+      { h2: 'Keep it clean and labeled', html: '<p>Right-click a node → <strong>Node Label</strong> to name it ("Balance", "CST", "Look"). Use the node\'s <strong>Key Output gain</strong> to dial an effect back to taste. A tidy tree is what lets you — or a <a href="/powergrades/">PowerGrade</a> you downloaded — stay flexible.</p>' }
+    ],
+    faqs: [
+      ['What is the difference between serial and parallel nodes?', 'Serial nodes stack one after another, so each builds on the previous result. Parallel nodes split the signal, grade each branch independently, then blend them back together equally.'],
+      ['How do I add a node in DaVinci Resolve?', 'Right-click in the node editor, or use Alt+S (Option+S on Mac) to add a serial node after the selected one. Alt+P adds a parallel node and Alt+L adds a layer node.'],
+      ['Why use multiple nodes instead of one?', 'Separating each job onto its own node keeps the grade editable — you can disable, reorder, or dial back any single step without redoing the whole thing, and it is far easier to troubleshoot.']
+    ],
+    related: [
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade'],
+      ['/guides/how-to-install-a-powergrade-in-davinci-resolve/', 'Install a PowerGrade'],
+      ['/powergrades/', 'Free PowerGrades']
+    ]
+  },
+  {
+    slug: 'how-to-use-color-wheels-in-davinci-resolve',
+    crumb: 'Color wheels',
+    title: 'How to Use the Color Wheels in DaVinci Resolve | resolve.directory',
+    h1: 'How to use the color wheels in DaVinci Resolve',
+    desc: 'Lift, Gamma, Gain and Offset explained — what each color wheel controls, how they overlap, and how to balance an image with them in DaVinci Resolve.',
+    blurb: 'Lift, Gamma, Gain and Offset — what each wheel controls and how to balance with them.',
+    intro: 'The primary color wheels are the heart of correction in DaVinci Resolve. Four wheels — Lift, Gamma, Gain and Offset — control different parts of the tonal range. Here is exactly what each one does.',
+    sections: [
+      { h2: 'Lift — the shadows', html: '<p><strong>Lift</strong> mostly moves your darkest tones. Drag the color ring to tint the shadows; use the wheel below it to raise or lower black level. Watch the bottom of the <a href="/guides/how-to-read-scopes-in-davinci-resolve/">waveform</a> so you do not crush detail.</p>' },
+      { h2: 'Gain — the highlights', html: '<p><strong>Gain</strong> mostly affects your brightest tones. Use it to set your white point and tint the highlights. Keep the top of the waveform below clipping unless you deliberately want blown highlights.</p>' },
+      { h2: 'Gamma — the midtones', html: '<p><strong>Gamma</strong> controls the middle of the range — where skin and most detail live. Small gamma moves have a big visual impact, so go gently, especially on faces.</p>' },
+      { h2: 'Offset — everything at once', html: '<p><strong>Offset</strong> shifts the whole image together. It is perfect for overall white balance: rotate the Offset ring until a neutral object reads neutral on the <strong>Parade</strong> scope.</p>' },
+      { h2: 'They overlap — go back and forth', html: '<p>Lift, Gamma and Gain influence neighbouring ranges, so adjusting one nudges the others. Expect to bounce between them a couple of times to settle a clean balance. Reset any wheel by clicking the small reset arrow above it.</p>' }
+    ],
+    faqs: [
+      ['What do Lift, Gamma and Gain do in DaVinci Resolve?', 'Lift adjusts the shadows, Gamma adjusts the midtones, and Gain adjusts the highlights. Offset shifts the entire image at once and is ideal for overall white balance.'],
+      ['What is the difference between the color wheels and the log wheels?', 'The primary wheels (Lift/Gamma/Gain) split the image into broad tonal ranges. The Log wheels (Shadow/Midtone/Highlight) have narrower, more separated ranges with less overlap, which is useful on log footage and for precise creative looks.'],
+      ['How do I white balance with the color wheels?', 'Use the Offset wheel: put a neutral grey or white part of the frame on the Parade scope and rotate Offset until the red, green and blue traces line up.']
+    ],
+    related: [
+      ['/guides/how-to-read-scopes-in-davinci-resolve/', 'How to read scopes'],
+      ['/guides/how-to-use-curves-in-davinci-resolve/', 'How to use curves'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade']
+    ]
+  },
+  {
+    slug: 'how-to-use-curves-in-davinci-resolve',
+    crumb: 'Curves',
+    title: 'How to Use Curves in DaVinci Resolve (Custom & Hue Curves) | resolve.directory',
+    h1: 'How to use curves in DaVinci Resolve',
+    desc: 'How to use the Custom curve for contrast and the Hue vs Hue, Hue vs Sat and Lum vs Sat curves for targeted color control in DaVinci Resolve.',
+    blurb: 'The Custom curve for contrast, plus Hue vs Hue / Sat / Lum for surgical color control.',
+    intro: 'Curves give you the most precise control over tone and color in DaVinci Resolve. The Custom curve shapes contrast; the hue curves let you change one specific color without touching the rest. Here is how to use both.',
+    sections: [
+      { h2: 'The Custom curve — contrast', html: '<p>Open the <strong>Curves</strong> palette. Add a point in the highlights and pull up, add one in the shadows and pull down — a gentle <strong>S-shape</strong> that adds filmic contrast. Lift the very bottom point slightly for softer, film-like blacks.</p>' },
+      { h2: 'Adjust individual channels', html: '<p>Switch the Custom curve to the <strong>Red</strong>, <strong>Green</strong> or <strong>Blue</strong> channel to tint specific tonal ranges — for example lifting blue in the shadows for a cool base while leaving highlights warm.</p>' },
+      { h2: 'Hue vs Hue — shift a color', html: '<p>Use <strong>Hue vs Hue</strong> to rotate one color into another: click the color you want to change, then drag to shift its hue. Great for nudging an off orange sky or fixing a slightly green wall.</p>' },
+      { h2: 'Hue vs Sat and Lum vs Sat', html: '<p><strong>Hue vs Sat</strong> boosts or mutes the saturation of one color (calm down a loud red jacket). <strong>Lum vs Sat</strong> controls saturation by brightness — pulling saturation out of the very brightest tones keeps highlights from looking neon.</p>' },
+      { h2: 'Small moves win', html: '<p>Curves are powerful enough to wreck an image fast. Make small adjustments, and put big creative curve moves on their own <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a> so you can dial them back.</p>' }
+    ],
+    faqs: [
+      ['How do I add contrast with curves in DaVinci Resolve?', 'On the Custom curve, pull the highlights up slightly and the shadows down to make a soft S-shape. The steeper the S, the more contrast. Lift the bottom point a touch for softer blacks.'],
+      ['What does the Hue vs Hue curve do?', 'It lets you shift one specific hue to another without affecting other colors — for example turning a slightly orange sky more blue, or correcting a color cast on one object.'],
+      ['What is Lum vs Sat used for?', 'Lum vs Sat changes saturation based on brightness. A common use is pulling saturation out of the brightest highlights so they do not look artificially colorful.']
+    ],
+    related: [
+      ['/guides/how-to-use-color-wheels-in-davinci-resolve/', 'How to use color wheels'],
+      ['/guides/how-to-fix-skin-tones-in-davinci-resolve/', 'Fix skin tones'],
+      ['/guides/how-to-get-a-cinematic-look-in-davinci-resolve/', 'Get a cinematic look']
+    ]
+  },
+  {
+    slug: 'how-to-read-scopes-in-davinci-resolve',
+    crumb: 'Scopes',
+    title: 'How to Read Scopes in DaVinci Resolve (Waveform, Parade, Vectorscope) | resolve.directory',
+    h1: 'How to read the scopes in DaVinci Resolve',
+    desc: 'A plain-English guide to the DaVinci Resolve video scopes — Waveform, RGB Parade, Vectorscope and Histogram — and how to use them to grade accurately.',
+    blurb: 'Waveform, Parade, Vectorscope and Histogram — what each one tells you and how to grade by it.',
+    intro: 'Your eyes adapt and your monitor lies. The scopes are the objective truth of your image. You only need to understand four, and each answers a different question about your shot.',
+    sections: [
+      { h2: 'Open the scopes', html: '<p>On the Color page, click the scopes icon (top-right) to open the panel. Use the menu inside it to switch between Waveform, Parade, Vectorscope and Histogram.</p>' },
+      { h2: 'Waveform — exposure', html: '<p>The <strong>Waveform</strong> plots brightness from bottom (black) to top (white), matched left-to-right to the frame. Keep detail off the very floor and ceiling to avoid crushed shadows or clipped highlights.</p>' },
+      { h2: 'RGB Parade — white balance', html: '<p>The <strong>Parade</strong> shows red, green and blue separately. If a neutral part of the frame has the three channels at different heights, you have a color cast — line them up to balance. This is the single most useful scope for correction.</p>' },
+      { h2: 'Vectorscope — hue and saturation', html: '<p>The <strong>Vectorscope</strong> shows color as direction (hue) and distance from center (saturation). The diagonal <strong>skin-tone line</strong> is your friend: healthy skin of any tone falls along it. More on that in <a href="/guides/how-to-fix-skin-tones-in-davinci-resolve/">fixing skin tones</a>.</p>' },
+      { h2: 'Histogram — quick distribution', html: '<p>The <strong>Histogram</strong> is a fast read of how tones are spread from dark to light. It is less precise than the waveform but good for spotting clipping at a glance.</p>' }
+    ],
+    faqs: [
+      ['Which scope should I use for white balance?', 'The RGB Parade. Find a neutral grey or white area in the frame and adjust until the red, green and blue traces sit at the same height there.'],
+      ['What is the skin tone line on the vectorscope?', 'It is the diagonal indicator (around the 11 o\'clock position) that healthy skin tones of every ethnicity naturally fall along. Lining faces up to it is a reliable way to keep skin looking natural.'],
+      ['How do I avoid clipping in DaVinci Resolve?', 'Watch the Waveform: keep your highlight detail below the top line and your shadow detail above the bottom line. Anything flattened against either edge has lost detail.']
+    ],
+    related: [
+      ['/guides/how-to-use-color-wheels-in-davinci-resolve/', 'How to use color wheels'],
+      ['/guides/how-to-fix-skin-tones-in-davinci-resolve/', 'Fix skin tones'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade']
+    ]
+  },
+  {
+    slug: 'how-to-match-shots-in-davinci-resolve',
+    crumb: 'Match shots',
+    title: 'How to Match Shots in DaVinci Resolve (Consistent Grade) | resolve.directory',
+    h1: 'How to match shots in DaVinci Resolve',
+    desc: 'How to make every clip in your edit look consistent in DaVinci Resolve — using scopes, the Shot Match tool, and copying grades between clips.',
+    blurb: 'Make every clip match — scopes, the auto Shot Match tool, and copying grades between clips.',
+    intro: 'Shots from different angles, times of day or cameras rarely match out of the box. Consistency is what makes an edit feel professional. Here are three ways to match your clips in DaVinci Resolve, from manual to automatic.',
+    sections: [
+      { h2: 'Grade a hero shot first', html: '<p>Pick your best, most representative shot and <a href="/guides/how-to-color-grade-in-davinci-resolve/">grade it fully</a>. Every other clip in the scene gets matched to this one, so it becomes your reference.</p>' },
+      { h2: 'Match manually with the Parade', html: '<p>Put your hero shot and the clip you are matching side by side (use stills in the Gallery). Compare them on the <strong>RGB Parade</strong> and <a href="/guides/how-to-read-scopes-in-davinci-resolve/">match the black point, white point and mid balance</a> until the traces line up. This is the most reliable method.</p>' },
+      { h2: 'Use the Shot Match tool', html: '<p>Select the clips you want to match, right-click your reference clip, and choose <strong>Shot Match to this Clip</strong>. Resolve analyzes and auto-matches them. Treat the result as a strong starting point, then clean it up by eye.</p>' },
+      { h2: 'Copy a grade between clips', html: '<p>To copy a finished grade, select the target clip and <strong>middle-click</strong> the source clip\'s thumbnail — that applies its whole node tree. Or save the look as a <a href="/guides/how-to-install-a-powergrade-in-davinci-resolve/">PowerGrade</a> and apply it across the project.</p>' }
+    ],
+    faqs: [
+      ['How does the Shot Match tool work in DaVinci Resolve?', 'Select the clips to correct, right-click the clip you want them to match, and choose "Shot Match to this Clip". Resolve analyzes both and automatically adjusts color and exposure to match. It is a great starting point but usually needs a little manual cleanup.'],
+      ['How do I copy a grade from one clip to another?', 'Select the clip you want to grade, then middle-click the thumbnail of the already-graded clip. This copies its entire node tree. You can also save it as a PowerGrade in the Gallery.'],
+      ['Why do my shots still not match after Shot Match?', 'Auto-matching struggles with very different exposures, mixed color temperatures or strong existing grades. Match the black and white points manually on the Parade scope first, then fine-tune.']
+    ],
+    related: [
+      ['/guides/how-to-read-scopes-in-davinci-resolve/', 'How to read scopes'],
+      ['/guides/how-to-install-a-powergrade-in-davinci-resolve/', 'Install a PowerGrade'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade']
+    ]
+  },
+  {
+    slug: 'how-to-fix-skin-tones-in-davinci-resolve',
+    crumb: 'Skin tones',
+    title: 'How to Fix Skin Tones in DaVinci Resolve | resolve.directory',
+    h1: 'How to fix skin tones in DaVinci Resolve',
+    desc: 'How to get natural skin tones in DaVinci Resolve using the vectorscope skin-tone line, a qualifier and Hue vs Hue — without wrecking the rest of your grade.',
+    blurb: 'Natural skin every time — the vectorscope skin line, qualifiers and Hue vs Hue.',
+    intro: 'Skin is the one thing viewers instantly judge. If faces look off, the whole grade looks wrong. Here is how to keep skin tones natural in DaVinci Resolve, even when the rest of your frame is heavily stylized.',
+    sections: [
+      { h2: 'Use the vectorscope skin-tone line', html: '<p>Open the <strong>Vectorscope</strong>. Healthy skin of every ethnicity falls along the diagonal <strong>skin-tone line</strong> — the difference between tones is mostly how far out along it they sit, not the angle. Adjust hue until your subject\'s skin trace lines up with it.</p>' },
+      { h2: 'Isolate skin with a qualifier', html: '<p>To fix skin without touching everything else, add a <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a> and use the <strong>Qualifier</strong> (the eyedropper) to select skin. Refine the selection, enable the highlight to check it, then correct just that region.</p>' },
+      { h2: 'Nudge hue with Hue vs Hue', html: '<p>If skin leans too orange, red or green, the <a href="/guides/how-to-use-curves-in-davinci-resolve/">Hue vs Hue curve</a> can rotate just that hue back toward natural without a full qualifier. It is quick and often enough on its own.</p>' },
+      { h2: 'Protect skin while you stylize', html: '<p>Building a strong <a href="/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/">teal-and-orange look</a>? Do your creative grade first, then add a skin-protection node last so faces stay believable while the rest of the frame gets pushed.</p>' }
+    ],
+    faqs: [
+      ['How do I make skin tones look natural in DaVinci Resolve?', 'Use the vectorscope skin-tone line as your guide and adjust hue until the skin trace aligns with it. For finer control, isolate skin with a qualifier or nudge it with the Hue vs Hue curve.'],
+      ['What is the skin tone line on the vectorscope?', 'A diagonal reference line (around 11 o\'clock) that healthy skin tones of all ethnicities naturally fall along. It gives you an objective target so you are not relying only on your monitor.'],
+      ['How do I fix skin without changing the whole image?', 'Add a new node and use the Qualifier to select only the skin, then correct that isolated region. This keeps your background and creative look untouched.']
+    ],
+    related: [
+      ['/guides/how-to-read-scopes-in-davinci-resolve/', 'How to read scopes'],
+      ['/guides/how-to-use-curves-in-davinci-resolve/', 'How to use curves'],
+      ['/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/', 'Teal and orange look']
+    ]
+  },
+  {
+    slug: 'how-to-create-teal-and-orange-look-in-davinci-resolve',
+    crumb: 'Teal & orange',
+    title: 'How to Create the Teal and Orange Look in DaVinci Resolve | resolve.directory',
+    h1: 'How to create the teal and orange look in DaVinci Resolve',
+    desc: 'Build the classic teal-and-orange blockbuster look in DaVinci Resolve the right way — cool shadows, warm skin, and protected faces. Step by step.',
+    blurb: 'The blockbuster split done right — cool shadows, warm skin, and faces that still look human.',
+    intro: 'Teal and orange is the most recognizable look in modern film: cool teal shadows against warm orange skin. Done carelessly it looks cheap; done with restraint it looks like a blockbuster. Here is the clean way to build it in DaVinci Resolve.',
+    howtoSteps: [
+      { name: 'Balance and convert first', text: 'Correct exposure and white balance, and convert log footage to Rec.709, before adding the look.' },
+      { name: 'Cool the shadows', text: 'On a new node, push the Lift or Offset wheel toward teal/cyan to tint the shadows.' },
+      { name: 'Warm the highlights', text: 'Push the Gain wheel toward orange to warm the highlights and skin.' },
+      { name: 'Protect skin tones', text: 'Add a qualifier or Hue vs Hue adjustment so faces stay natural along the vectorscope skin line.' },
+      { name: 'Dial it back', text: 'Reduce the look node\'s Key Output gain until the effect feels subtle rather than obvious.' }
+    ],
+    sections: [
+      { h2: '1. Start from a correct image', html: '<p>The look only works on a balanced base. <a href="/guides/how-to-color-grade-in-davinci-resolve/">Correct exposure and white balance</a> and <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">convert log to Rec.709</a> first.</p>' },
+      { h2: '2. Push shadows teal, highlights warm', html: '<p>On a new <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a>, tint the shadows toward teal with <strong>Lift</strong> or <strong>Offset</strong>, and warm the highlights toward orange with <strong>Gain</strong>. This complementary split is the whole idea.</p>' },
+      { h2: '3. Protect the skin', html: '<p>Warm highlights can push skin into sunburn territory. Add a <a href="/guides/how-to-fix-skin-tones-in-davinci-resolve/">skin qualifier or Hue vs Hue</a> node to hold faces on the natural skin-tone line while the rest of the frame stays stylized.</p>' },
+      { h2: '4. Keep it subtle', html: '<p>Reduce the look node with its <strong>Key Output gain</strong> until it reads as mood, not filter. Try it on a <a href="/luts/">free teal-and-orange LUT</a> from the directory to compare against your manual version.</p>' }
+    ],
+    faqs: [
+      ['Why is teal and orange so popular?', 'Skin tones are warm/orange, and teal is the complementary opposite on the color wheel. Placing subjects against a cool background makes them pop, which is why it became the default look for so many films.'],
+      ['How do I keep skin natural with a teal and orange grade?', 'Protect skin with a qualifier or the Hue vs Hue curve so faces stay on the vectorscope skin-tone line, even while you push the shadows teal and the highlights warm.'],
+      ['Can I do teal and orange with a LUT?', 'Yes — a teal-and-orange LUT applies the split instantly. Put it on its own node so you can dial the strength back, and still add skin protection on top.']
+    ],
+    related: [
+      ['/luts/', 'Free LUTs for DaVinci Resolve'],
+      ['/guides/how-to-fix-skin-tones-in-davinci-resolve/', 'Fix skin tones'],
+      ['/guides/how-to-get-a-cinematic-look-in-davinci-resolve/', 'Get a cinematic look']
+    ]
+  },
+  {
+    slug: 'how-to-add-a-vignette-in-davinci-resolve',
+    crumb: 'Vignette',
+    title: 'How to Add a Vignette in DaVinci Resolve (2 Ways) | resolve.directory',
+    h1: 'How to add a vignette in DaVinci Resolve',
+    desc: 'Two ways to add a vignette in DaVinci Resolve — a Power Window circle and the ResolveFX Vignette — plus how to keep it subtle and natural.',
+    blurb: 'Two clean ways to add a vignette — a Power Window or ResolveFX — and how to keep it subtle.',
+    intro: 'A subtle vignette darkens the edges of the frame to pull the eye toward your subject. It is one of the quietest, most effective finishing touches. Here are two ways to add one in DaVinci Resolve.',
+    howtoSteps: [
+      { name: 'Add a node', text: 'On the Color page, add a serial node dedicated to the vignette.' },
+      { name: 'Draw a Power Window', text: 'Open the Window palette, add a Circle window and size it around your subject.' },
+      { name: 'Invert the window', text: 'Invert the window so the effect applies to the edges instead of the center.' },
+      { name: 'Darken the edges', text: 'Pull down the Gain or Lift so the outer frame gets darker, and raise the softness for a smooth falloff.' }
+    ],
+    sections: [
+      { h2: 'Method 1 — Power Window (most control)', html: '<p>Add a <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a>, open the <strong>Window</strong> palette, and add a <strong>Circle</strong>. Size it around your subject, then click <strong>Invert</strong> so you are affecting the edges. Pull down <strong>Gain</strong> to darken the corners and raise <strong>Softness</strong> for a smooth, invisible falloff.</p>' },
+      { h2: 'Track it if the camera moves', html: '<p>If your shot pans or the subject moves, use the <strong>Tracker</strong> palette to track the window so the vignette follows them instead of sitting statically over the frame.</p>' },
+      { h2: 'Method 2 — ResolveFX Vignette', html: '<p>For a quick, symmetrical vignette, drag the <strong>Vignette</strong> ResolveFX onto a node and adjust size, softness and darkness. It is faster than a Power Window but less flexible about shape and position.</p>' },
+      { h2: 'Keep it invisible', html: '<p>The best vignette is one nobody notices. Keep the darkening gentle and the falloff soft — if it looks like a black ring, it is far too strong. It is usually the last node in a <a href="/guides/how-to-get-a-cinematic-look-in-davinci-resolve/">cinematic grade</a>.</p>' }
+    ],
+    faqs: [
+      ['How do I add a vignette in DaVinci Resolve?', 'Add a node, open the Window palette and draw a Circle window, invert it so it affects the edges, then lower the Gain and raise the softness to darken the corners smoothly. Or use the ResolveFX Vignette for a quick version.'],
+      ['How do I make a vignette follow a moving subject?', 'Use the Tracker palette to track your Power Window. Resolve will move the window with the subject or camera so the vignette stays centered on them.'],
+      ['Why does my vignette look fake?', 'It is almost always too strong or too hard-edged. Reduce how much you darken the edges and increase the softness so the transition is gradual and invisible.']
+    ],
+    related: [
+      ['/guides/how-to-get-a-cinematic-look-in-davinci-resolve/', 'Get a cinematic look'],
+      ['/guides/how-to-use-nodes-in-davinci-resolve/', 'How to use nodes'],
+      ['/powergrades/', 'Free PowerGrades']
+    ]
+  },
+  {
+    slug: 'how-to-export-a-lut-from-davinci-resolve',
+    crumb: 'Export a LUT',
+    title: 'How to Export a LUT from DaVinci Resolve | resolve.directory',
+    h1: 'How to export a LUT from DaVinci Resolve',
+    desc: 'How to generate and export a .cube LUT from a grade in DaVinci Resolve, when to use a LUT vs a PowerGrade, and how to reuse it across projects.',
+    blurb: 'Turn any grade into a reusable .cube LUT — and when a LUT beats a PowerGrade.',
+    intro: 'Once you build a look you love, you can bake it into a LUT and reuse it anywhere — other projects, other editors, even on-set monitors. Here is how to export a .cube LUT from a grade in DaVinci Resolve.',
+    howtoSteps: [
+      { name: 'Grade your look on nodes', text: 'Build the look you want to save as a chain of nodes on the Color page.' },
+      { name: 'Right-click the clip thumbnail', text: 'In the Color page timeline, right-click the graded clip\'s thumbnail.' },
+      { name: 'Generate the LUT', text: 'Choose Generate LUT and pick a resolution such as 33 Point Cube.' },
+      { name: 'Save the .cube file', text: 'Name it and save. It appears in your LUT folder ready to apply anywhere.' }
+    ],
+    sections: [
+      { h2: '1. Build the look on nodes', html: '<p>Create the grade you want to save as a <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node chain</a>. Remember a LUT bakes in <em>only</em> color/contrast math — it cannot store Power Windows, tracking or spatial effects.</p>' },
+      { h2: '2. Generate the LUT', html: '<p>Right-click the graded clip\'s thumbnail in the Color page timeline → <strong>Generate LUT</strong> → choose <strong>33 Point Cube</strong> (a good balance of accuracy and size). Save it — it lands in your LUT folder automatically.</p>' },
+      { h2: '3. Reuse it anywhere', html: '<p>Your new <code>.cube</code> now installs like any other — see <a href="/guides/how-to-install-luts-in-davinci-resolve/">how to install a LUT</a>. You can share it, load it on a set monitor, or use it as a fast starting point on future edits.</p>' },
+      { h2: 'LUT or PowerGrade?', html: '<p>Export a <strong>LUT</strong> when you want a portable, one-click look. Save a <a href="/guides/how-to-install-a-powergrade-in-davinci-resolve/"><strong>PowerGrade</strong></a> when you want every node to stay editable inside Resolve. Many colorists keep both.</p>' }
+    ],
+    faqs: [
+      ['How do I export a LUT in DaVinci Resolve?', 'Right-click the graded clip\'s thumbnail on the Color page, choose Generate LUT, and pick a resolution like 33 Point Cube. Resolve saves a .cube file to your LUT folder.'],
+      ['What LUT size should I export — 17, 33 or 65 point?', '33 Point Cube is the usual choice: accurate enough for almost everything and a reasonable file size. Use 65 point for maximum precision, or 17 point for lightweight on-set previews.'],
+      ['Can a LUT capture Power Windows or tracking?', 'No. A LUT only stores a color and contrast transform. Power Windows, qualifiers, tracking and spatial effects cannot be baked into a LUT — save those as a PowerGrade instead.']
+    ],
+    related: [
+      ['/guides/how-to-install-luts-in-davinci-resolve/', 'How to install a LUT'],
+      ['/guides/how-to-install-a-powergrade-in-davinci-resolve/', 'Install a PowerGrade'],
+      ['/luts/', 'Free LUTs for DaVinci Resolve']
+    ]
+  },
+  {
+    slug: 'davinci-resolve-free-vs-studio-differences',
+    crumb: 'Free vs Studio',
+    title: 'DaVinci Resolve Free vs Studio: What Is the Difference? | resolve.directory',
+    h1: 'DaVinci Resolve free vs Studio',
+    desc: 'A clear breakdown of DaVinci Resolve free vs Studio — what the free version can do, what the paid Studio upgrade adds, and whether you need it for color grading.',
+    blurb: 'What the free version does, what Studio adds, and whether you actually need to pay.',
+    intro: 'DaVinci Resolve is unusually generous: the free version is a full professional editor and color grading suite. Studio is a one-time purchase that adds performance and a set of pro features. Here is exactly what you do and do not get for free.',
+    sections: [
+      { h2: 'What the free version includes', html: '<p>The complete color grading toolset — <a href="/guides/how-to-use-color-wheels-in-davinci-resolve/">color wheels</a>, <a href="/guides/how-to-use-curves-in-davinci-resolve/">curves</a>, <a href="/guides/how-to-use-nodes-in-davinci-resolve/">nodes</a>, qualifiers, Power Windows, tracking, <a href="/guides/how-to-read-scopes-in-davinci-resolve/">scopes</a>, Color Space Transform and full LUT support. You can edit, grade, mix audio and export up to 4K. For most creators, the free version is genuinely all you need.</p>' },
+      { h2: 'What Studio adds', html: '<p>The paid upgrade mainly adds: <strong>noise reduction</strong> (temporal and spatial), <strong>HDR grading tools</strong>, the built-in <strong>Film Grain OFX</strong> and many other ResolveFX/OFX plugins, more <strong>DaVinci Neural Engine</strong> features (Magic Mask, better face refinement, super scale), higher-than-4K and higher-frame-rate export, multi-GPU acceleration and remote/collaboration workflow tools.</p>' },
+      { h2: 'Do you need Studio for color grading?', html: '<p>For learning and most online work — no. Every core technique on this site works in the free version. You mainly want Studio once you need <strong>noise reduction</strong>, <strong>HDR delivery</strong>, or the speed of multi-GPU on heavy timelines.</p>' },
+      { h2: 'Adding grain without Studio', html: '<p>The one gap people hit early is the Film Grain effect being Studio-only. You can still <a href="/guides/how-to-add-film-grain-in-davinci-resolve/">add real film grain for free</a> using scanned overlay plates with composite modes.</p>' }
+    ],
+    faqs: [
+      ['Is DaVinci Resolve free version good enough for color grading?', 'Yes. The free version includes the entire primary and secondary grading toolset, scopes, nodes, LUTs and Color Space Transform. It is more than enough for professional-looking results.'],
+      ['What does DaVinci Resolve Studio add over the free version?', 'Mainly noise reduction, HDR grading tools, the built-in Film Grain and extra OFX plugins, more Neural Engine AI features, higher resolution/frame-rate export, and multi-GPU performance. Studio is a one-time purchase, not a subscription.'],
+      ['Can I add film grain in the free version of DaVinci Resolve?', 'The built-in Film Grain OFX is Studio-only, but you can add real grain for free by layering a scanned grain overlay clip and setting its composite mode.']
+    ],
+    related: [
+      ['/guides/how-to-add-film-grain-in-davinci-resolve/', 'Add film grain (free)'],
+      ['/guides/how-to-color-grade-in-davinci-resolve/', 'How to color grade'],
+      ['/guides/', 'All guides']
+    ]
+  },
+  {
+    slug: 'how-to-color-grade-iphone-footage-in-davinci-resolve',
+    crumb: 'iPhone footage',
+    title: 'How to Color Grade iPhone Footage in DaVinci Resolve | resolve.directory',
+    h1: 'How to color grade iPhone footage in DaVinci Resolve',
+    desc: 'How to grade iPhone footage in DaVinci Resolve — handling HDR/Dolby Vision that looks washed out, converting Apple Log to Rec.709, and getting a clean cinematic result.',
+    blurb: 'Fix washed-out HDR, convert Apple Log to Rec.709, and grade iPhone clips cleanly.',
+    intro: 'iPhone footage is deceptively tricky to grade because of how Apple records it — Dolby Vision HDR by default, and Apple Log on Pro models. Get the setup right and iPhone footage grades beautifully. Here is how to handle both in DaVinci Resolve.',
+    sections: [
+      { h2: 'Why iPhone clips look washed out or oversaturated', html: '<p>By default iPhones record <strong>Dolby Vision HDR</strong>. Dropped onto a standard Rec.709 timeline, that footage often looks flat, washed out or weirdly oversaturated. The fix is to tell Resolve how to interpret it rather than fighting it with the color wheels.</p>' },
+      { h2: 'Grading standard (HDR) iPhone footage', html: '<p>Switch <strong>Project Settings → Color Management</strong> to <strong>DaVinci YRGB Color Managed</strong>, then set the input to the clip\'s HDR standard and the <strong>Timeline / Output</strong> to <strong>Rec.709 Gamma 2.4</strong>. Resolve tone-maps the HDR down to a correct SDR base you can grade normally. See <a href="/guides/davinci-resolve-color-management-settings-explained/">color management explained</a>.</p>' },
+      { h2: 'Grading Apple Log (iPhone 15 Pro and newer)', html: '<p>If you shot <strong>Apple Log</strong> (ProRes Log), treat it like any log footage: add a <strong>Color Space Transform</strong> with input <strong>Apple Log</strong> and output <strong>Rec.709 / Gamma 2.4</strong>, or apply Apple\'s official Log LUT. Full method: <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">convert log to Rec.709</a>.</p>' },
+      { h2: 'Shoot to make grading easier', html: '<p>For the most control, shoot <strong>Apple Log</strong> (or Apple ProRes) on a Pro model. If your phone cannot, turning off HDR video in the iPhone camera settings records standard SDR, which is simpler to grade even if it holds less range.</p>' },
+      { h2: 'Then grade like normal', html: '<p>Once you have a clean Rec.709 base, everything else on this site applies — <a href="/guides/how-to-color-grade-in-davinci-resolve/">balance and contrast</a>, a <a href="/guides/how-to-get-a-cinematic-look-in-davinci-resolve/">cinematic look</a>, or a one-click <a href="/luts/">LUT</a>.</p>' }
+    ],
+    faqs: [
+      ['Why does my iPhone footage look washed out in DaVinci Resolve?', 'iPhones record Dolby Vision HDR by default. On a standard Rec.709 timeline that HDR footage looks flat or washed out. Use DaVinci YRGB Color Managed and set the output to Rec.709 so Resolve tone-maps it correctly, or shoot in SDR/Apple Log instead.'],
+      ['How do I convert Apple Log to Rec.709?', 'Add a Color Space Transform node with input set to Apple Log and output to Rec.709 / Gamma 2.4, or apply Apple\'s official Apple Log LUT on its own node before you grade.'],
+      ['Should I shoot iPhone video in HDR or Apple Log?', 'Apple Log (on Pro models) gives you the most grading flexibility. If Apple Log is not available, turning off HDR to record standard SDR makes footage much easier to grade than default Dolby Vision HDR.']
+    ],
+    related: [
+      ['/guides/how-to-convert-log-to-rec709-in-davinci-resolve/', 'Convert log to Rec.709'],
+      ['/guides/davinci-resolve-color-management-settings-explained/', 'Color management explained'],
+      ['/guides/how-to-get-a-cinematic-look-in-davinci-resolve/', 'Get a cinematic look']
+    ]
+  },
+  {
+    slug: 'how-to-use-the-color-warper-in-davinci-resolve',
+    crumb: 'Color Warper',
+    title: 'How to Use the Color Warper in DaVinci Resolve | resolve.directory',
+    h1: 'How to use the Color Warper in DaVinci Resolve',
+    desc: 'How to use the Color Warper in DaVinci Resolve — the Chroma-Hue and Hue-Saturation grids — for intuitive, precise color shaping and color separation. Works in the free version.',
+    blurb: 'The Chroma-Hue and Hue-Saturation grids for intuitive, precise color shaping.',
+    intro: 'The Color Warper is one of the most intuitive tools in DaVinci Resolve: instead of sliders, you grab points on a grid and push colors exactly where you want them. It is great for color separation and fixing specific hues, and it works in the free version.',
+    sections: [
+      { h2: 'Open the Color Warper', html: '<p>On the <strong>Color</strong> page, open the <strong>Color Warper</strong> palette (the grid icon in the palette row). Put it on its own <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a> so you can dial it back later.</p>' },
+      { h2: 'Chroma-Hue mode — push colors around', html: '<p>The <strong>Chroma-Hue</strong> grid maps hue around the circle and saturation outward. Grab a grid point over the color you want to change and drag: outward boosts saturation, around the wheel shifts hue. This is the fastest way to create <a href="/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/">color separation</a> — pull shadows one way, skin another.</p>' },
+      { h2: 'Hue-Saturation mode — target by zone', html: '<p>The <strong>Hue-Saturation</strong> grid lets you rotate hue and adjust saturation for specific hue/sat zones, which is perfect for surgical fixes — calming a loud color or nudging a single hue without a qualifier.</p>' },
+      { h2: 'Protect skin while you separate colors', html: '<p>Because the Warper works by hue zone, you can push the palette hard while leaving the skin zone near neutral — a clean way to keep <a href="/guides/how-to-fix-skin-tones-in-davinci-resolve/">natural skin tones</a> in a stylized grade.</p>' },
+      { h2: 'Keep moves gentle', html: '<p>The grid makes big changes easy, so it is easy to overdo. Small drags go a long way; use the node\'s Key Output gain to reduce the whole effect if it gets heavy.</p>' }
+    ],
+    faqs: [
+      ['What is the Color Warper in DaVinci Resolve?', 'It is a grid-based color tool with two modes — Chroma-Hue and Hue-Saturation — that lets you push colors around intuitively by dragging grid points instead of using sliders. It is excellent for color separation and targeted hue fixes.'],
+      ['Is the Color Warper available in the free version of DaVinci Resolve?', 'Yes. The Color Warper is part of the standard color toolset and works in the free version, not just Studio.'],
+      ['What is the Color Warper good for?', 'Creating color separation (like teal and orange), fixing or shifting specific hues without a qualifier, and shaping saturation by zone — all while keeping skin tones protected.']
+    ],
+    related: [
+      ['/guides/how-to-create-teal-and-orange-look-in-davinci-resolve/', 'Teal and orange look'],
+      ['/guides/how-to-fix-skin-tones-in-davinci-resolve/', 'Fix skin tones'],
+      ['/guides/how-to-use-curves-in-davinci-resolve/', 'How to use curves']
+    ]
+  },
+  {
+    slug: 'best-free-luts-for-davinci-resolve',
+    crumb: 'Best free LUTs',
+    title: 'Best Free LUTs for DaVinci Resolve (Curated) | resolve.directory',
+    h1: 'Best free LUTs for DaVinci Resolve',
+    desc: 'A curated pick of the best free LUTs for DaVinci Resolve — cinematic looks, log conversion LUTs and film emulation — all free to download from the directory.',
+    blurb: 'A curated shortlist of the best free LUT packs — creative looks, log conversions and film emulation.',
+    intro: 'There are a lot of free LUTs out there and plenty of low-quality ones. This is a curated shortlist of genuinely useful free LUT packs for DaVinci Resolve, grouped by what you actually need them for. Every link is free.',
+    sections: [
+      { h2: 'Official log-conversion LUTs (start here)', html: '<p>If you shoot log, the most important LUTs are your camera\'s own conversion LUTs — they give you a correct Rec.709 base. Grab them from the <a href="/official-luts/">official camera log LUT library</a> for Sony, Canon, Panasonic, Nikon, DJI, ARRI and RED. See also <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">converting log to Rec.709</a>.</p>' },
+      { h2: 'Creative cinematic LUTs', html: '<p>For instant looks — teal-and-orange, film-style, moody — browse the <a href="/luts/">free creative LUT packs</a> in the directory. Apply them on their own <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a> so you can dial the strength back to taste.</p>' },
+      { h2: 'Film emulation LUTs', html: '<p>Want the feel of a specific film stock? Several packs in the directory emulate classic 35mm and instant-film looks. Pair them with a light layer of <a href="/guides/how-to-add-film-grain-in-davinci-resolve/">film grain</a> for a convincing analog result.</p>' },
+      { h2: 'How to use them well', html: '<p>A LUT is a starting point, not a finish line. <a href="/guides/how-to-color-grade-in-davinci-resolve/">Balance your shot first</a>, apply the LUT on its own node, then reduce its Key Output gain and fine-tune. New to installing them? Read <a href="/guides/how-to-install-luts-in-davinci-resolve/">how to install a LUT</a>.</p>' },
+      { h2: 'Browse the full directory', html: '<p>This shortlist is just a taste — the <a href="/index.html#list">full directory</a> lists every free LUT and PowerGrade we have collected, updated as new ones are found. <a href="/index.html#list">Browse everything free</a>.</p>' }
+    ],
+    faqs: [
+      ['Are free LUTs good enough for professional work?', 'Yes, especially official camera log-conversion LUTs, which are made by the manufacturers. For creative looks, quality varies — use a LUT as a starting point, then balance and fine-tune the shot around it.'],
+      ['Where can I download free LUTs for DaVinci Resolve?', 'The resolve.directory listing curates free LUTs and PowerGrades from creators and camera manufacturers across the web, including official log-conversion LUTs and creative cinematic packs.'],
+      ['Do free LUTs work in the free version of DaVinci Resolve?', 'Yes. Standard 3D .cube LUTs work identically in the free version and in DaVinci Resolve Studio.']
+    ],
+    related: [
+      ['/luts/', 'Free LUTs for DaVinci Resolve'],
+      ['/official-luts/', 'Official camera log LUTs'],
+      ['/powergrades/', 'Free PowerGrades']
+    ]
+  }
+];
+
+function buildGuidePage(g) {
+  const canonical = `https://resolve.directory/guides/${g.slug}/`;
+  const jsonld = [];
+  if (g.howtoSteps && g.howtoSteps.length) {
+    jsonld.push({
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: g.h1,
+      description: g.desc,
+      step: g.howtoSteps.map(function (s) {
+        return { '@type': 'HowToStep', name: s.name, text: s.text };
+      })
+    });
+  }
+  if (g.faqs && g.faqs.length) {
+    jsonld.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: g.faqs.map(function (qa) {
+        return { '@type': 'Question', name: qa[0], acceptedAnswer: { '@type': 'Answer', text: qa[1] } };
+      })
+    });
+  }
+  jsonld.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'resolve.directory', item: 'https://resolve.directory/' },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: 'https://resolve.directory/guides/' },
+      { '@type': 'ListItem', position: 3, name: g.crumb, item: canonical }
+    ]
+  });
+
+  const sections = g.sections.map(function (s) {
+    return `    <h2>${escapeHtml(s.h2)}</h2>\n    ${s.html}`;
+  }).join('\n\n');
+
+  const faqHtml = (g.faqs && g.faqs.length)
+    ? `\n  <section class="hub-faq">\n    <h2>Frequently asked</h2>\n${g.faqs.map(function (qa) {
+        return `    <div class="faq-item"><h3>${escapeHtml(qa[0])}</h3><p>${escapeHtml(qa[1])}</p></div>`;
+      }).join('\n')}\n  </section>`
+    : '';
+
+  const related = (g.related && g.related.length) ? g.related : [
+    ['/luts/', 'Free LUTs for DaVinci Resolve'],
+    ['/powergrades/', 'Free PowerGrades'],
+    ['/guides/', 'All guides']
+  ];
+  const relatedHtml = `\n  <nav class="hub-related">\n    <h2>Keep exploring</h2>\n${related.map(function (r) {
+      return `    <a href="${r[0]}">${escapeHtml(r[1])}</a>`;
+    }).join('\n')}\n  </nav>`;
+
+  const body = `<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>${escapeHtml(g.crumb)}</span>
+  </div>
+
+  <h1 class="hub-h1">${escapeHtml(g.h1)}</h1>
+  <p class="hub-intro">${g.intro}</p>
+
+  <section class="guide-prose">
+${sections}
+  </section>
+${faqHtml}
+${relatedHtml}
+</div>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+${head({ title: g.title, desc: g.desc, canonical, ogTitle: g.ogTitle || g.h1, jsonld })}
+<body>
+
+${HEADER}
+
+${body}
+
+${FOOTER}
+
+${SCRIPTS}
+
+</body>
+</html>
+`;
+}
+
 function guidesIndexPage() {
   const canonical = 'https://resolve.directory/guides/';
   const title = 'DaVinci Resolve Color Grading Guides | resolve.directory';
-  const desc = 'Simple, practical guides for color grading in DaVinci Resolve — installing LUTs, using PowerGrades and getting a cinematic look for free.';
+  const desc = 'Free step-by-step DaVinci Resolve guides — color grading, log to Rec.709, LUTs, PowerGrades, curves, nodes, scopes, skin tones and the cinematic look.';
   const guides = [
     { url: '/guides/how-to-install-luts-in-davinci-resolve/', name: 'How to install a LUT in DaVinci Resolve', blurb: 'Where the LUT folder is, how to import .cube files and apply them on the Color page.' },
     { url: '/guides/how-to-install-a-powergrade-in-davinci-resolve/', name: 'How to install a PowerGrade in DaVinci Resolve', blurb: 'Importing .drx files into the Gallery\'s PowerGrade album and applying the node tree to your clips.' },
     { url: '/guides/how-to-add-film-grain-in-davinci-resolve/', name: 'How to add film grain in DaVinci Resolve (free)', blurb: 'Using real scanned grain plates with composite modes — works in the free version.' }
-  ];
+  ].concat(NEW_GUIDES.map(function (g) {
+    return { url: `/guides/${g.slug}/`, name: g.h1, blurb: g.blurb };
+  }));
   const rows = guides.map(function (gd, i) {
     return `      <a class="row" href="${gd.url}">
         <span class="rank">${i + 1}</span>
@@ -980,6 +1547,10 @@ writePage('/guides/how-to-install-a-powergrade-in-davinci-resolve/', guideInstal
 generatedHubs.push({ path: '/guides/how-to-install-a-powergrade-in-davinci-resolve/', priority: '0.6' });
 writePage('/guides/how-to-add-film-grain-in-davinci-resolve/', guideFilmGrainPage());
 generatedHubs.push({ path: '/guides/how-to-add-film-grain-in-davinci-resolve/', priority: '0.6' });
+NEW_GUIDES.forEach(function (g) {
+  writePage(`/guides/${g.slug}/`, buildGuidePage(g));
+  generatedHubs.push({ path: `/guides/${g.slug}/`, priority: '0.6' });
+});
 writePage('/guides/', guidesIndexPage());
 generatedHubs.push({ path: '/guides/', priority: '0.6' });
 

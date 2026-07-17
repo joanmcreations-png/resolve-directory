@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P06PPE9EV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1P06PPE9EV');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Free LUTs for DaVinci Resolve (Curated) | resolve.directory</title>
+<meta name="description" content="A curated pick of the best free LUTs for DaVinci Resolve — cinematic looks, log conversion LUTs and film emulation — all free to download from the directory.">
+<link rel="canonical" href="https://resolve.directory/guides/best-free-luts-for-davinci-resolve/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resolve.directory/guides/best-free-luts-for-davinci-resolve/">
+<meta property="og:title" content="Best free LUTs for DaVinci Resolve">
+<meta property="og:description" content="A curated pick of the best free LUTs for DaVinci Resolve — cinematic looks, log conversion LUTs and film emulation — all free to download from the directory.">
+<meta property="og:image" content="https://resolve.directory/og.png">
+<meta property="og:site_name" content="resolve.directory">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Best free LUTs for DaVinci Resolve">
+<meta name="twitter:description" content="A curated pick of the best free LUTs for DaVinci Resolve — cinematic looks, log conversion LUTs and film emulation — all free to download from the directory.">
+<meta name="twitter:image" content="https://resolve.directory/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are free LUTs good enough for professional work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, especially official camera log-conversion LUTs, which are made by the manufacturers. For creative looks, quality varies — use a LUT as a starting point, then balance and fine-tune the shot around it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I download free LUTs for DaVinci Resolve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The resolve.directory listing curates free LUTs and PowerGrades from creators and camera manufacturers across the web, including official log-conversion LUTs and creative cinematic packs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do free LUTs work in the free version of DaVinci Resolve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Standard 3D .cube LUTs work identically in the free version and in DaVinci Resolve Studio."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "resolve.directory",
+      "item": "https://resolve.directory/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guides",
+      "item": "https://resolve.directory/guides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Best free LUTs",
+      "item": "https://resolve.directory/guides/best-free-luts-for-davinci-resolve/"
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/styles.css?v=mrpc9zaf">
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/index.html">
+    <svg class="mark" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+      <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+      <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+    </svg>
+    RESOLVE<span class="name"> Directory</span>
+  </a>
+  <nav class="top">
+    <a class="link" href="/index.html#list">Grades</a>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="submitBtn"><span class="full-label">Submit a Resource</span><span class="short-label">Submit</span></button>
+      <div class="popover" id="submitPopover">
+        <p>Share a link to a free LUT or PowerGrade you found.</p>
+        <div class="popover-row" id="submitForm">
+          <input type="url" id="submitInput" placeholder="https://..." required>
+          <button class="btn-solid" id="submitSubmit">Send</button>
+        </div>
+        <p class="success" id="submitSuccess">Thanks — we'll take a look and add it.</p>
+      </div>
+    </div>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="notifyBtn"><span class="full-label">Get notified</span><span class="short-label">Notify</span></button>
+      <div class="popover" id="popover">
+        <p>Get an email when new grades are added.</p>
+        <div class="popover-row" id="popoverForm">
+          <input type="email" id="emailInput" placeholder="you@email.com" required>
+          <button class="btn-solid" id="popoverSubmit">Notify me</button>
+        </div>
+        <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
+      </div>
+    </div>
+    <div class="notify-wrap" id="authArea">
+      <button class="btn-outline" id="signInBtn">Sign In</button>
+      <div class="popover" id="signInPopover">
+        <p>Sign in to submit resources under your name and get a profile.</p>
+        <div class="oauth-row">
+          <button class="btn-oauth" id="googleSignIn">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28v-3.1H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.38l4-3.1z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.27 6.62l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Best free LUTs</span>
+  </div>
+
+  <h1 class="hub-h1">Best free LUTs for DaVinci Resolve</h1>
+  <p class="hub-intro">There are a lot of free LUTs out there and plenty of low-quality ones. This is a curated shortlist of genuinely useful free LUT packs for DaVinci Resolve, grouped by what you actually need them for. Every link is free.</p>
+
+  <section class="guide-prose">
+    <h2>Official log-conversion LUTs (start here)</h2>
+    <p>If you shoot log, the most important LUTs are your camera's own conversion LUTs — they give you a correct Rec.709 base. Grab them from the <a href="/official-luts/">official camera log LUT library</a> for Sony, Canon, Panasonic, Nikon, DJI, ARRI and RED. See also <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">converting log to Rec.709</a>.</p>
+
+    <h2>Creative cinematic LUTs</h2>
+    <p>For instant looks — teal-and-orange, film-style, moody — browse the <a href="/luts/">free creative LUT packs</a> in the directory. Apply them on their own <a href="/guides/how-to-use-nodes-in-davinci-resolve/">node</a> so you can dial the strength back to taste.</p>
+
+    <h2>Film emulation LUTs</h2>
+    <p>Want the feel of a specific film stock? Several packs in the directory emulate classic 35mm and instant-film looks. Pair them with a light layer of <a href="/guides/how-to-add-film-grain-in-davinci-resolve/">film grain</a> for a convincing analog result.</p>
+
+    <h2>How to use them well</h2>
+    <p>A LUT is a starting point, not a finish line. <a href="/guides/how-to-color-grade-in-davinci-resolve/">Balance your shot first</a>, apply the LUT on its own node, then reduce its Key Output gain and fine-tune. New to installing them? Read <a href="/guides/how-to-install-luts-in-davinci-resolve/">how to install a LUT</a>.</p>
+
+    <h2>Browse the full directory</h2>
+    <p>This shortlist is just a taste — the <a href="/index.html#list">full directory</a> lists every free LUT and PowerGrade we have collected, updated as new ones are found. <a href="/index.html#list">Browse everything free</a>.</p>
+  </section>
+
+  <section class="hub-faq">
+    <h2>Frequently asked</h2>
+    <div class="faq-item"><h3>Are free LUTs good enough for professional work?</h3><p>Yes, especially official camera log-conversion LUTs, which are made by the manufacturers. For creative looks, quality varies — use a LUT as a starting point, then balance and fine-tune the shot around it.</p></div>
+    <div class="faq-item"><h3>Where can I download free LUTs for DaVinci Resolve?</h3><p>The resolve.directory listing curates free LUTs and PowerGrades from creators and camera manufacturers across the web, including official log-conversion LUTs and creative cinematic packs.</p></div>
+    <div class="faq-item"><h3>Do free LUTs work in the free version of DaVinci Resolve?</h3><p>Yes. Standard 3D .cube LUTs work identically in the free version and in DaVinci Resolve Studio.</p></div>
+  </section>
+
+  <nav class="hub-related">
+    <h2>Keep exploring</h2>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
+    <a href="/official-luts/">Official camera log LUTs</a>
+    <a href="/powergrades/">Free PowerGrades</a>
+  </nav>
+</div>
+
+<footer>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <a href="/index.html#list">Grades</a>
+      <a href="#" id="footerSubmit">Submit a Resource</a>
+    </div>
+    <div class="footer-col">
+      <h3>Browse</h3>
+      <a href="/luts/">Free LUTs</a>
+      <a href="/powergrades/">PowerGrades</a>
+      <a href="/official-luts/">Official log LUTs</a>
+      <a href="/guides/">Guides</a>
+    </div>
+    <div class="footer-col">
+      <h3>Account</h3>
+      <a href="#" id="footerSignIn">Sign In</a>
+      <a href="#" id="footerNotify">Get notified</a>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <a href="/privacy/">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+        <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+        <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+      </svg>
+      resolve.directory
+    </div>
+  </div>
+  <p class="footer-disclaimer">Not affiliated with Blackmagic Design.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth.js"></script>
+<script>
+  const notifyBtn = document.getElementById('notifyBtn');
+  const popover = document.getElementById('popover');
+  const popoverForm = document.getElementById('popoverForm');
+  const popoverSuccess = document.getElementById('popoverSuccess');
+
+  const submitBtn = document.getElementById('submitBtn');
+  const submitPopover = document.getElementById('submitPopover');
+  const submitForm = document.getElementById('submitForm');
+  const submitSuccess = document.getElementById('submitSuccess');
+
+  const signInPopover = document.getElementById('signInPopover');
+
+  notifyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    submitPopover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    popover.classList.toggle('open');
+  });
+
+  submitBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    submitPopover.classList.toggle('open');
+  });
+
+  document.getElementById('signInBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    submitPopover.classList.remove('open');
+    signInPopover.classList.toggle('open');
+  });
+
+  document.getElementById('googleSignIn').addEventListener('click', () => signInWithGoogle());
+
+  document.addEventListener('click', (e) => {
+    if (!popover.contains(e.target) && e.target !== notifyBtn) {
+      popover.classList.remove('open');
+    }
+    if (!submitPopover.contains(e.target) && e.target !== submitBtn) {
+      submitPopover.classList.remove('open');
+    }
+    if (!signInPopover.contains(e.target) && e.target.id !== 'signInBtn') {
+      signInPopover.classList.remove('open');
+    }
+  });
+
+  document.getElementById('popoverSubmit').addEventListener('click', () => {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'resolve.directory detail page' })
+    }).catch(() => {});
+    window.supabaseClient.from('subscribers').insert({ email: email, source: 'resolve.directory detail page' }).then(() => {});
+    popoverForm.style.display = 'none';
+    popoverSuccess.classList.add('show');
+  });
+
+  document.getElementById('submitSubmit').addEventListener('click', () => {
+    const url = document.getElementById('submitInput').value;
+    if (!url || !url.includes('.')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ resource_url: url, source: 'resolve.directory detail submission' })
+    }).catch(() => {});
+    submitForm.style.display = 'none';
+    submitSuccess.classList.add('show');
+  });
+
+  function footerLinkTo(headerBtn) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => headerBtn.click(), 350);
+  }
+  document.getElementById('footerSubmit').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(submitBtn); });
+  document.getElementById('footerSignIn').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(document.getElementById('signInBtn')); });
+  document.getElementById('footerNotify').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(notifyBtn); });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P06PPE9EV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1P06PPE9EV');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Color Grade iPhone Footage in DaVinci Resolve | resolve.directory</title>
+<meta name="description" content="How to grade iPhone footage in DaVinci Resolve — handling HDR/Dolby Vision that looks washed out, converting Apple Log to Rec.709, and getting a clean cinematic result.">
+<link rel="canonical" href="https://resolve.directory/guides/how-to-color-grade-iphone-footage-in-davinci-resolve/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://resolve.directory/guides/how-to-color-grade-iphone-footage-in-davinci-resolve/">
+<meta property="og:title" content="How to color grade iPhone footage in DaVinci Resolve">
+<meta property="og:description" content="How to grade iPhone footage in DaVinci Resolve — handling HDR/Dolby Vision that looks washed out, converting Apple Log to Rec.709, and getting a clean cinematic result.">
+<meta property="og:image" content="https://resolve.directory/og.png">
+<meta property="og:site_name" content="resolve.directory">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to color grade iPhone footage in DaVinci Resolve">
+<meta name="twitter:description" content="How to grade iPhone footage in DaVinci Resolve — handling HDR/Dolby Vision that looks washed out, converting Apple Log to Rec.709, and getting a clean cinematic result.">
+<meta name="twitter:image" content="https://resolve.directory/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does my iPhone footage look washed out in DaVinci Resolve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "iPhones record Dolby Vision HDR by default. On a standard Rec.709 timeline that HDR footage looks flat or washed out. Use DaVinci YRGB Color Managed and set the output to Rec.709 so Resolve tone-maps it correctly, or shoot in SDR/Apple Log instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I convert Apple Log to Rec.709?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add a Color Space Transform node with input set to Apple Log and output to Rec.709 / Gamma 2.4, or apply Apple's official Apple Log LUT on its own node before you grade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I shoot iPhone video in HDR or Apple Log?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Apple Log (on Pro models) gives you the most grading flexibility. If Apple Log is not available, turning off HDR to record standard SDR makes footage much easier to grade than default Dolby Vision HDR."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "resolve.directory",
+      "item": "https://resolve.directory/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Guides",
+      "item": "https://resolve.directory/guides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "iPhone footage",
+      "item": "https://resolve.directory/guides/how-to-color-grade-iphone-footage-in-davinci-resolve/"
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/styles.css?v=mrpc9zaf">
+</head>
+<body>
+
+<header>
+  <a class="logo" href="/index.html">
+    <svg class="mark" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+      <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+      <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+    </svg>
+    RESOLVE<span class="name"> Directory</span>
+  </a>
+  <nav class="top">
+    <a class="link" href="/index.html#list">Grades</a>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="submitBtn"><span class="full-label">Submit a Resource</span><span class="short-label">Submit</span></button>
+      <div class="popover" id="submitPopover">
+        <p>Share a link to a free LUT or PowerGrade you found.</p>
+        <div class="popover-row" id="submitForm">
+          <input type="url" id="submitInput" placeholder="https://..." required>
+          <button class="btn-solid" id="submitSubmit">Send</button>
+        </div>
+        <p class="success" id="submitSuccess">Thanks — we'll take a look and add it.</p>
+      </div>
+    </div>
+    <div class="notify-wrap">
+      <button class="btn-solid" id="notifyBtn"><span class="full-label">Get notified</span><span class="short-label">Notify</span></button>
+      <div class="popover" id="popover">
+        <p>Get an email when new grades are added.</p>
+        <div class="popover-row" id="popoverForm">
+          <input type="email" id="emailInput" placeholder="you@email.com" required>
+          <button class="btn-solid" id="popoverSubmit">Notify me</button>
+        </div>
+        <p class="success" id="popoverSuccess">You're in. We'll email you about new grades.</p>
+      </div>
+    </div>
+    <div class="notify-wrap" id="authArea">
+      <button class="btn-outline" id="signInBtn">Sign In</button>
+      <div class="popover" id="signInPopover">
+        <p>Sign in to submit resources under your name and get a profile.</p>
+        <div class="oauth-row">
+          <button class="btn-oauth" id="googleSignIn">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.28A7.2 7.2 0 0 1 4.89 12c0-.79.14-1.56.38-2.28v-3.1H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.38l4-3.1z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.69 1.27 6.62l4 3.1C6.22 6.86 8.87 4.75 12 4.75z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>iPhone footage</span>
+  </div>
+
+  <h1 class="hub-h1">How to color grade iPhone footage in DaVinci Resolve</h1>
+  <p class="hub-intro">iPhone footage is deceptively tricky to grade because of how Apple records it — Dolby Vision HDR by default, and Apple Log on Pro models. Get the setup right and iPhone footage grades beautifully. Here is how to handle both in DaVinci Resolve.</p>
+
+  <section class="guide-prose">
+    <h2>Why iPhone clips look washed out or oversaturated</h2>
+    <p>By default iPhones record <strong>Dolby Vision HDR</strong>. Dropped onto a standard Rec.709 timeline, that footage often looks flat, washed out or weirdly oversaturated. The fix is to tell Resolve how to interpret it rather than fighting it with the color wheels.</p>
+
+    <h2>Grading standard (HDR) iPhone footage</h2>
+    <p>Switch <strong>Project Settings → Color Management</strong> to <strong>DaVinci YRGB Color Managed</strong>, then set the input to the clip's HDR standard and the <strong>Timeline / Output</strong> to <strong>Rec.709 Gamma 2.4</strong>. Resolve tone-maps the HDR down to a correct SDR base you can grade normally. See <a href="/guides/davinci-resolve-color-management-settings-explained/">color management explained</a>.</p>
+
+    <h2>Grading Apple Log (iPhone 15 Pro and newer)</h2>
+    <p>If you shot <strong>Apple Log</strong> (ProRes Log), treat it like any log footage: add a <strong>Color Space Transform</strong> with input <strong>Apple Log</strong> and output <strong>Rec.709 / Gamma 2.4</strong>, or apply Apple's official Log LUT. Full method: <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">convert log to Rec.709</a>.</p>
+
+    <h2>Shoot to make grading easier</h2>
+    <p>For the most control, shoot <strong>Apple Log</strong> (or Apple ProRes) on a Pro model. If your phone cannot, turning off HDR video in the iPhone camera settings records standard SDR, which is simpler to grade even if it holds less range.</p>
+
+    <h2>Then grade like normal</h2>
+    <p>Once you have a clean Rec.709 base, everything else on this site applies — <a href="/guides/how-to-color-grade-in-davinci-resolve/">balance and contrast</a>, a <a href="/guides/how-to-get-a-cinematic-look-in-davinci-resolve/">cinematic look</a>, or a one-click <a href="/luts/">LUT</a>.</p>
+  </section>
+
+  <section class="hub-faq">
+    <h2>Frequently asked</h2>
+    <div class="faq-item"><h3>Why does my iPhone footage look washed out in DaVinci Resolve?</h3><p>iPhones record Dolby Vision HDR by default. On a standard Rec.709 timeline that HDR footage looks flat or washed out. Use DaVinci YRGB Color Managed and set the output to Rec.709 so Resolve tone-maps it correctly, or shoot in SDR/Apple Log instead.</p></div>
+    <div class="faq-item"><h3>How do I convert Apple Log to Rec.709?</h3><p>Add a Color Space Transform node with input set to Apple Log and output to Rec.709 / Gamma 2.4, or apply Apple's official Apple Log LUT on its own node before you grade.</p></div>
+    <div class="faq-item"><h3>Should I shoot iPhone video in HDR or Apple Log?</h3><p>Apple Log (on Pro models) gives you the most grading flexibility. If Apple Log is not available, turning off HDR to record standard SDR makes footage much easier to grade than default Dolby Vision HDR.</p></div>
+  </section>
+
+  <nav class="hub-related">
+    <h2>Keep exploring</h2>
+    <a href="/guides/how-to-convert-log-to-rec709-in-davinci-resolve/">Convert log to Rec.709</a>
+    <a href="/guides/davinci-resolve-color-management-settings-explained/">Color management explained</a>
+    <a href="/guides/how-to-get-a-cinematic-look-in-davinci-resolve/">Get a cinematic look</a>
+  </nav>
+</div>
+
+<footer>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h3>Explore</h3>
+      <a href="/index.html#list">Grades</a>
+      <a href="#" id="footerSubmit">Submit a Resource</a>
+    </div>
+    <div class="footer-col">
+      <h3>Browse</h3>
+      <a href="/luts/">Free LUTs</a>
+      <a href="/powergrades/">PowerGrades</a>
+      <a href="/official-luts/">Official log LUTs</a>
+      <a href="/guides/">Guides</a>
+    </div>
+    <div class="footer-col">
+      <h3>Account</h3>
+      <a href="#" id="footerSignIn">Sign In</a>
+      <a href="#" id="footerNotify">Get notified</a>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <a href="/privacy/">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">
+      <svg width="16" height="16" viewBox="0 0 24 24">
+        <path d="M12 2.5 20.5 7.5 12 12.5 3.5 7.5Z" fill="#f7d9c6"/>
+        <path d="M3.5 7.5 12 12.5V21.5L3.5 16.5Z" fill="var(--accent)"/>
+        <path d="M20.5 7.5 12 12.5V21.5L20.5 16.5Z" fill="#a8451f"/>
+      </svg>
+      resolve.directory
+    </div>
+  </div>
+  <p class="footer-disclaimer">Not affiliated with Blackmagic Design.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/auth.js"></script>
+<script>
+  const notifyBtn = document.getElementById('notifyBtn');
+  const popover = document.getElementById('popover');
+  const popoverForm = document.getElementById('popoverForm');
+  const popoverSuccess = document.getElementById('popoverSuccess');
+
+  const submitBtn = document.getElementById('submitBtn');
+  const submitPopover = document.getElementById('submitPopover');
+  const submitForm = document.getElementById('submitForm');
+  const submitSuccess = document.getElementById('submitSuccess');
+
+  const signInPopover = document.getElementById('signInPopover');
+
+  notifyBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    submitPopover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    popover.classList.toggle('open');
+  });
+
+  submitBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    signInPopover.classList.remove('open');
+    submitPopover.classList.toggle('open');
+  });
+
+  document.getElementById('signInBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    popover.classList.remove('open');
+    submitPopover.classList.remove('open');
+    signInPopover.classList.toggle('open');
+  });
+
+  document.getElementById('googleSignIn').addEventListener('click', () => signInWithGoogle());
+
+  document.addEventListener('click', (e) => {
+    if (!popover.contains(e.target) && e.target !== notifyBtn) {
+      popover.classList.remove('open');
+    }
+    if (!submitPopover.contains(e.target) && e.target !== submitBtn) {
+      submitPopover.classList.remove('open');
+    }
+    if (!signInPopover.contains(e.target) && e.target.id !== 'signInBtn') {
+      signInPopover.classList.remove('open');
+    }
+  });
+
+  document.getElementById('popoverSubmit').addEventListener('click', () => {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'resolve.directory detail page' })
+    }).catch(() => {});
+    window.supabaseClient.from('subscribers').insert({ email: email, source: 'resolve.directory detail page' }).then(() => {});
+    popoverForm.style.display = 'none';
+    popoverSuccess.classList.add('show');
+  });
+
+  document.getElementById('submitSubmit').addEventListener('click', () => {
+    const url = document.getElementById('submitInput').value;
+    if (!url || !url.includes('.')) return;
+    fetch('https://formspree.io/f/maqggjqp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ resource_url: url, source: 'resolve.directory detail submission' })
+    }).catch(() => {});
+    submitForm.style.display = 'none';
+    submitSuccess.classList.add('show');
+  });
+
+  function footerLinkTo(headerBtn) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => headerBtn.click(), 350);
+  }
+  document.getElementById('footerSubmit').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(submitBtn); });
+  document.getElementById('footerSignIn').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(document.getElementById('signInBtn')); });
+  document.getElementById('footerNotify').addEventListener('click', (e) => { e.preventDefault(); footerLinkTo(notifyBtn); });
+</script>
+
+</body>
+</html>
