@@ -66,6 +66,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://resolve.directory/guides/how-to-install-a-powergrade-in-davinci-resolve/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://resolve.directory/guides/how-to-add-film-grain-in-davinci-resolve/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://resolve.directory/guides/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

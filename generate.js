@@ -731,12 +731,203 @@ ${SCRIPTS}
 `;
 }
 
+function guideInstallPowerGradePage() {
+  const canonical = 'https://resolve.directory/guides/how-to-install-a-powergrade-in-davinci-resolve/';
+  const title = 'How to Install a PowerGrade in DaVinci Resolve (Step by Step) | resolve.directory';
+  const desc = 'A simple step-by-step guide to importing and applying PowerGrades (.drx) in DaVinci Resolve — where the PowerGrade album is, how to import stills, and how to apply the node tree to your clips.';
+
+  const howto = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to install a PowerGrade in DaVinci Resolve',
+    description: desc,
+    step: [
+      { '@type': 'HowToStep', name: 'Open the Gallery on the Color page', text: 'In DaVinci Resolve go to the Color page and open the Gallery (top-left button).' },
+      { '@type': 'HowToStep', name: 'Show the PowerGrade album', text: 'Click the "..." menu in the Gallery (or right-click the album list) and make sure the PowerGrade 1 album is visible, then select it.' },
+      { '@type': 'HowToStep', name: 'Import the .drx or .dpx still', text: 'Right-click inside the PowerGrade album and choose "Import", then select the downloaded .drx file (or the still that came with the pack).' },
+      { '@type': 'HowToStep', name: 'Apply it to a clip', text: 'Select your clip, then middle-click the PowerGrade still (or right-click it and choose "Apply Grade") to copy its whole node tree onto the clip.' }
+    ]
+  };
+  const faq = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      ['What is the difference between a PowerGrade and a LUT?', 'A LUT is a single "baked" color transform. A PowerGrade is a full DaVinci Resolve node tree — every node stays editable, so you can adjust each part of the look after applying it.'],
+      ['What file format is a PowerGrade?', 'Usually a .drx file (a Resolve grade export), sometimes shared as a still image with the grade embedded. Both import into the Gallery the same way.'],
+      ['Do PowerGrades work in the free version of DaVinci Resolve?', 'Yes — PowerGrades work in the free version, as long as the nodes inside do not use Studio-only OFX plugins.']
+    ].map(function (qa) {
+      return { '@type': 'Question', name: qa[0], acceptedAnswer: { '@type': 'Answer', text: qa[1] } };
+    })
+  };
+
+  const body = `<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Install a PowerGrade</span>
+  </div>
+
+  <h1 class="hub-h1">How to install a PowerGrade in DaVinci Resolve</h1>
+  <p class="hub-intro">A PowerGrade is a complete DaVinci Resolve node tree saved as a preset — unlike a LUT, every node stays fully editable after you apply it. Here's how to import one and apply it to your footage. It takes about a minute.</p>
+
+  <section class="guide-prose">
+    <h2>1. Download your PowerGrade</h2>
+    <p>Grab a <code>.drx</code> file (or a still with the grade embedded). Browse the <a href="/powergrades/">free PowerGrades</a> in the directory if you need one — they're all free downloads from their creators.</p>
+
+    <h2>2. Open the Gallery on the Color page</h2>
+    <p>Go to the <strong>Color</strong> page and click the <strong>Gallery</strong> button (top-left). This is where Resolve stores stills and grade presets.</p>
+
+    <h2>3. Show the PowerGrade album</h2>
+    <p>In the Gallery's album list, make sure <strong>PowerGrade 1</strong> is visible — if it isn't, click the <strong>…</strong> menu and enable it. Anything saved in a PowerGrade album is available in <em>every</em> project, not just the current one.</p>
+
+    <h2>4. Import the .drx file</h2>
+    <p>Right-click inside the PowerGrade album and choose <strong>Import</strong>, then select your downloaded <code>.drx</code> file. The grade appears as a still in the album.</p>
+
+    <h2>5. Apply it to a clip</h2>
+    <p>Select a clip in the timeline, then <strong>middle-click</strong> the PowerGrade still (or right-click → <strong>Apply Grade</strong>). The full node tree is copied onto your clip — open the node editor and tweak any node to taste.</p>
+
+    <h2>Tip: fix your base first</h2>
+    <p>PowerGrades are built on the assumption of a balanced starting image. If you shot log, do your <a href="/guides/how-to-install-luts-in-davinci-resolve/">conversion to Rec.709</a> or color-manage the project first, then apply the PowerGrade on top.</p>
+  </section>
+
+  <section class="hub-faq">
+    <h2>Frequently asked</h2>
+    <div class="faq-item"><h3>What is the difference between a PowerGrade and a LUT?</h3><p>A LUT is a single "baked" color transform. A PowerGrade is a full Resolve node tree — every node stays editable, so you can adjust each part of the look after applying it.</p></div>
+    <div class="faq-item"><h3>What file format is a PowerGrade?</h3><p>Usually a .drx file (a Resolve grade export), sometimes shared as a still image with the grade embedded. Both import into the Gallery the same way.</p></div>
+    <div class="faq-item"><h3>Do PowerGrades work in the free version of DaVinci Resolve?</h3><p>Yes — PowerGrades work in the free version, as long as the nodes inside don't use Studio-only OFX plugins.</p></div>
+  </section>
+
+  <nav class="hub-related">
+    <h2>Keep exploring</h2>
+    <a href="/powergrades/">Free PowerGrades for DaVinci Resolve</a>
+    <a href="/guides/how-to-install-luts-in-davinci-resolve/">How to install a LUT</a>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
+  </nav>
+</div>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+${head({ title, desc, canonical, ogTitle: 'How to install a PowerGrade in DaVinci Resolve', jsonld: [howto, faq] })}
+<body>
+
+${HEADER}
+
+${body}
+
+${FOOTER}
+
+${SCRIPTS}
+
+</body>
+</html>
+`;
+}
+
+function guideFilmGrainPage() {
+  const canonical = 'https://resolve.directory/guides/how-to-add-film-grain-in-davinci-resolve/';
+  const title = 'How to Add Film Grain in DaVinci Resolve (Free, Step by Step) | resolve.directory';
+  const desc = 'How to add real film grain to your footage in DaVinci Resolve for free — using scanned grain overlay plates with composite modes, plus how to dial in the right amount.';
+
+  const howto = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to add film grain in DaVinci Resolve',
+    description: desc,
+    step: [
+      { '@type': 'HowToStep', name: 'Download a grain plate', text: 'Download a free scanned film grain plate (a video clip of real film grain on a neutral gray background).' },
+      { '@type': 'HowToStep', name: 'Import it to the Media Pool', text: 'Drag the grain clip into your Media Pool in DaVinci Resolve.' },
+      { '@type': 'HowToStep', name: 'Place it on a track above', text: 'On the Edit page, place the grain clip on a video track above your footage and stretch it across the timeline.' },
+      { '@type': 'HowToStep', name: 'Set the composite mode', text: 'Select the grain clip and in the Inspector set its Composite Mode to Overlay (or Soft Light for a subtler effect).' },
+      { '@type': 'HowToStep', name: 'Dial in the amount', text: 'Lower the clip opacity until the grain feels organic — usually somewhere between 20% and 50%.' }
+    ]
+  };
+  const faq = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      ['Can I add film grain in the free version of DaVinci Resolve?', 'Yes. The overlay method works entirely in the free version — you only need a grain plate clip and a composite mode. The built-in Film Grain OFX effect is Studio-only.'],
+      ['Why use real scanned grain instead of a plugin?', 'Scanned plates come from real film stocks, so the grain structure, size and movement are organic instead of procedurally generated.'],
+      ['Should grain go before or after the grade?', 'Grain goes on top of (after) your finished grade, so it sits over the final image the way it would on printed film.']
+    ].map(function (qa) {
+      return { '@type': 'Question', name: qa[0], acceptedAnswer: { '@type': 'Answer', text: qa[1] } };
+    })
+  };
+
+  const body = `<div class="detail-wrap hub-wrap">
+  <div class="breadcrumb">
+    <a href="/index.html">resolve.directory</a>
+    <span>/</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Add film grain</span>
+  </div>
+
+  <h1 class="hub-h1">How to add film grain in DaVinci Resolve (free)</h1>
+  <p class="hub-intro">Real film grain instantly makes digital footage feel more cinematic — it adds texture, hides the "too clean" digital look and ties a grade together. Here's the free way to do it in DaVinci Resolve using scanned grain plates.</p>
+
+  <section class="guide-prose">
+    <h2>1. Download a grain plate</h2>
+    <p>A grain plate is a video clip of real, scanned film grain on a neutral gray background. Grab one from the <a href="/film-grain/">free film grain packs</a> in the directory — several are scanned from real 35mm and 16mm stocks in 4K.</p>
+
+    <h2>2. Import it into the Media Pool</h2>
+    <p>Drag the grain clip into your <strong>Media Pool</strong> like any other footage.</p>
+
+    <h2>3. Put it on a track above your footage</h2>
+    <p>On the <strong>Edit</strong> page, place the grain clip on a video track <em>above</em> your footage. If your timeline is longer than the plate, just duplicate the clip along the track.</p>
+
+    <h2>4. Set the composite mode to Overlay</h2>
+    <p>Select the grain clip, open the <strong>Inspector</strong>, and change <strong>Composite Mode</strong> to <strong>Overlay</strong>. Because the plate is a neutral gray, only the grain texture shows through. <strong>Soft Light</strong> gives a subtler version of the same effect.</p>
+
+    <h2>5. Dial in the opacity</h2>
+    <p>Lower the grain clip's <strong>Opacity</strong> in the Inspector until it feels organic rather than noisy — usually between 20% and 50% depending on the plate and how filmic you want the image.</p>
+
+    <h2>Grain always goes last</h2>
+    <p>Add grain on top of your <em>finished</em> grade — on real film, grain lives in the print itself, so it should sit over the final image. If you're still building your look, start with a <a href="/powergrades/">free PowerGrade</a> or a <a href="/luts/">free LUT</a>, then finish with grain.</p>
+  </section>
+
+  <section class="hub-faq">
+    <h2>Frequently asked</h2>
+    <div class="faq-item"><h3>Can I add film grain in the free version of DaVinci Resolve?</h3><p>Yes. The overlay method works entirely in the free version — you only need a grain plate clip and a composite mode. The built-in Film Grain OFX effect is Studio-only.</p></div>
+    <div class="faq-item"><h3>Why use real scanned grain instead of a plugin?</h3><p>Scanned plates come from real film stocks, so the grain structure, size and movement are organic instead of procedurally generated.</p></div>
+    <div class="faq-item"><h3>Should grain go before or after the grade?</h3><p>Grain goes on top of (after) your finished grade, so it sits over the final image the way it would on printed film.</p></div>
+  </section>
+
+  <nav class="hub-related">
+    <h2>Keep exploring</h2>
+    <a href="/film-grain/">Free film grain for DaVinci Resolve</a>
+    <a href="/guides/how-to-install-a-powergrade-in-davinci-resolve/">How to install a PowerGrade</a>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
+  </nav>
+</div>`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+${head({ title, desc, canonical, ogTitle: 'How to add film grain in DaVinci Resolve (free)', jsonld: [howto, faq] })}
+<body>
+
+${HEADER}
+
+${body}
+
+${FOOTER}
+
+${SCRIPTS}
+
+</body>
+</html>
+`;
+}
+
 function guidesIndexPage() {
   const canonical = 'https://resolve.directory/guides/';
   const title = 'DaVinci Resolve Color Grading Guides | resolve.directory';
   const desc = 'Simple, practical guides for color grading in DaVinci Resolve — installing LUTs, using PowerGrades and getting a cinematic look for free.';
   const guides = [
-    { url: '/guides/how-to-install-luts-in-davinci-resolve/', name: 'How to install a LUT in DaVinci Resolve', blurb: 'Where the LUT folder is, how to import .cube files and apply them on the Color page.' }
+    { url: '/guides/how-to-install-luts-in-davinci-resolve/', name: 'How to install a LUT in DaVinci Resolve', blurb: 'Where the LUT folder is, how to import .cube files and apply them on the Color page.' },
+    { url: '/guides/how-to-install-a-powergrade-in-davinci-resolve/', name: 'How to install a PowerGrade in DaVinci Resolve', blurb: 'Importing .drx files into the Gallery\'s PowerGrade album and applying the node tree to your clips.' },
+    { url: '/guides/how-to-add-film-grain-in-davinci-resolve/', name: 'How to add film grain in DaVinci Resolve (free)', blurb: 'Using real scanned grain plates with composite modes — works in the free version.' }
   ];
   const rows = guides.map(function (gd, i) {
     return `      <a class="row" href="${gd.url}">
@@ -785,6 +976,10 @@ ${SCRIPTS}
 
 writePage('/guides/how-to-install-luts-in-davinci-resolve/', guideInstallLutPage());
 generatedHubs.push({ path: '/guides/how-to-install-luts-in-davinci-resolve/', priority: '0.6' });
+writePage('/guides/how-to-install-a-powergrade-in-davinci-resolve/', guideInstallPowerGradePage());
+generatedHubs.push({ path: '/guides/how-to-install-a-powergrade-in-davinci-resolve/', priority: '0.6' });
+writePage('/guides/how-to-add-film-grain-in-davinci-resolve/', guideFilmGrainPage());
+generatedHubs.push({ path: '/guides/how-to-add-film-grain-in-davinci-resolve/', priority: '0.6' });
 writePage('/guides/', guidesIndexPage());
 generatedHubs.push({ path: '/guides/', priority: '0.6' });
 

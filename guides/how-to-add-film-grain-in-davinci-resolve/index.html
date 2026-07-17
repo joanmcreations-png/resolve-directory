@@ -11,9 +11,9 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Nikon LUTs &amp; Grades for DaVinci Resolve (N-Log) | resolve.directory</title>
-<meta name="description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
-<link rel="canonical" href="https://resolve.directory/camera/nikon/">
+<title>How to Add Film Grain in DaVinci Resolve (Free, Step by Step) | resolve.directory</title>
+<meta name="description" content="How to add real film grain to your footage in DaVinci Resolve for free — using scanned grain overlay plates with composite modes, plus how to dial in the right amount.">
+<link rel="canonical" href="https://resolve.directory/guides/how-to-add-film-grain-in-davinci-resolve/">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0b0b0b">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -25,70 +25,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://resolve.directory/camera/nikon/">
-<meta property="og:title" content="Free Nikon LUTs for DaVinci Resolve">
-<meta property="og:description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
+<meta property="og:url" content="https://resolve.directory/guides/how-to-add-film-grain-in-davinci-resolve/">
+<meta property="og:title" content="How to add film grain in DaVinci Resolve (free)">
+<meta property="og:description" content="How to add real film grain to your footage in DaVinci Resolve for free — using scanned grain overlay plates with composite modes, plus how to dial in the right amount.">
 <meta property="og:image" content="https://resolve.directory/og.png">
 <meta property="og:site_name" content="resolve.directory">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Nikon LUTs for DaVinci Resolve">
-<meta name="twitter:description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
+<meta name="twitter:title" content="How to add film grain in DaVinci Resolve (free)">
+<meta name="twitter:description" content="How to add real film grain to your footage in DaVinci Resolve for free — using scanned grain overlay plates with composite modes, plus how to dial in the right amount.">
 <meta name="twitter:image" content="https://resolve.directory/og.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Free Nikon LUTs & Grades for DaVinci Resolve (N-Log) | resolve.directory",
-  "description": "Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.",
-  "url": "https://resolve.directory/camera/nikon/"
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Free Nikon LUTs for DaVinci Resolve",
-  "numberOfItems": 3,
-  "itemListElement": [
+  "@type": "HowTo",
+  "name": "How to add film grain in DaVinci Resolve",
+  "description": "How to add real film grain to your footage in DaVinci Resolve for free — using scanned grain overlay plates with composite modes, plus how to dial in the right amount.",
+  "step": [
     {
-      "@type": "ListItem",
-      "position": 1,
-      "url": "https://resolve.directory/grade/nikon-n-log-3d-lut/",
-      "name": "Nikon N-Log 3D LUT"
+      "@type": "HowToStep",
+      "name": "Download a grain plate",
+      "text": "Download a free scanned film grain plate (a video clip of real film grain on a neutral gray background)."
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "url": "https://resolve.directory/grade/nikon-red-creative-luts/",
-      "name": "Nikon RED Creative LUTs"
+      "@type": "HowToStep",
+      "name": "Import it to the Media Pool",
+      "text": "Drag the grain clip into your Media Pool in DaVinci Resolve."
     },
     {
-      "@type": "ListItem",
-      "position": 3,
-      "url": "https://resolve.directory/grade/cinecolor-nikon-n-log-lut/",
-      "name": "CineColor Nikon N-Log LUT"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "resolve.directory",
-      "item": "https://resolve.directory/"
+      "@type": "HowToStep",
+      "name": "Place it on a track above",
+      "text": "On the Edit page, place the grain clip on a video track above your footage and stretch it across the timeline."
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Nikon LUTs",
-      "item": "https://resolve.directory/camera/nikon/"
+      "@type": "HowToStep",
+      "name": "Set the composite mode",
+      "text": "Select the grain clip and in the Inspector set its Composite Mode to Overlay (or Soft Light for a subtler effect)."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Dial in the amount",
+      "text": "Lower the clip opacity until the grain feels organic — usually somewhere between 20% and 50%."
     }
   ]
 }
@@ -100,26 +78,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How do I convert Nikon log footage in DaVinci Resolve?",
+      "name": "Can I add film grain in the free version of DaVinci Resolve?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Start with an official Nikon N-Log to Rec.709 conversion LUT to get a neutral, correct base, then build your creative grade on top of it."
+        "text": "Yes. The overlay method works entirely in the free version — you only need a grain plate clip and a composite mode. The built-in Film Grain OFX effect is Studio-only."
       }
     },
     {
       "@type": "Question",
-      "name": "Are these Nikon LUTs free?",
+      "name": "Why use real scanned grain instead of a plugin?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — every Nikon LUT and grade listed here is free to download from its creator or from the manufacturer."
+        "text": "Scanned plates come from real film stocks, so the grain structure, size and movement are organic instead of procedurally generated."
       }
     },
     {
       "@type": "Question",
-      "name": "What format are they?",
+      "name": "Should grain go before or after the grade?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Mostly .cube 3D LUTs, which DaVinci Resolve reads natively in both the free and Studio versions."
+        "text": "Grain goes on top of (after) your finished grade, so it sits over the final image the way it would on printed film."
       }
     }
   ]
@@ -181,73 +159,46 @@
   <div class="breadcrumb">
     <a href="/index.html">resolve.directory</a>
     <span>/</span>
-    <span>Nikon LUTs</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Add film grain</span>
   </div>
 
-  <div class="detail-head hub-head">
-    <div class="detail-icon" style="color:var(--text-dim)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7H7l1.3-1.9a1 1 0 0 1 .83-.44h5.74a1 1 0 0 1 .83.44L17 7h2.5A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.4" r="3.4"/></svg></div>
-    <div class="detail-title-row">
-      <h1 class="detail-title">Free Nikon LUTs for DaVinci Resolve</h1>
-    </div>
-  </div>
-  <p class="hub-intro">Free color resources for Nikon shooters. Whether you're converting N-Log footage to a clean Rec.709 base or adding a cinematic look on top, these are the free Nikon LUTs and grades collected in the directory — official conversion LUTs and creative packs alike.</p>
+  <h1 class="hub-h1">How to add film grain in DaVinci Resolve (free)</h1>
+  <p class="hub-intro">Real film grain instantly makes digital footage feel more cinematic — it adds texture, hides the "too clean" digital look and ties a grade together. Here's the free way to do it in DaVinci Resolve using scanned grain plates.</p>
 
-  <div class="hub-count">3 free resources</div>
+  <section class="guide-prose">
+    <h2>1. Download a grain plate</h2>
+    <p>A grain plate is a video clip of real, scanned film grain on a neutral gray background. Grab one from the <a href="/film-grain/">free film grain packs</a> in the directory — several are scanned from real 35mm and 16mm stocks in 4K.</p>
 
-  <div class="hub-list">
-      <a class="row" href="/grade/nikon-n-log-3d-lut/">
-        <span class="rank">1</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <span class="row-main">
-          <div class="name">Nikon N-Log 3D LUT</div>
-          <div class="desc">Official free 3D LUT for grading N-Log footage from Nikon mirrorless cameras.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#5b9dd9"></span>Official LUT</span>
-        <span class="tag free">FREE</span>
-      </a>
-      <a class="row" href="/grade/nikon-red-creative-luts/">
-        <span class="rank">2</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <span class="row-main">
-          <div class="name">Nikon RED Creative LUTs</div>
-          <div class="desc">Four free creative LUTs for N-Log, developed by Nikon with RED.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#5b9dd9"></span>Official LUT</span>
-        <span class="tag free">FREE</span>
-      </a>
-      <a class="row" href="/grade/cinecolor-nikon-n-log-lut/">
-        <span class="rank">3</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="12" height="12" rx="1.5"/><path d="M9 9h12v12H9z" opacity="0.55"/></svg></span>
-        <span class="row-main">
-          <div class="name">CineColor Nikon N-Log LUT</div>
-          <div class="desc">Free Nikon N-Log to Rec.709 conversion LUT.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#4fae72"></span>LUT Pack</span>
-        <span class="tag free">FREE</span>
-      </a>
-  </div>
+    <h2>2. Import it into the Media Pool</h2>
+    <p>Drag the grain clip into your <strong>Media Pool</strong> like any other footage.</p>
+
+    <h2>3. Put it on a track above your footage</h2>
+    <p>On the <strong>Edit</strong> page, place the grain clip on a video track <em>above</em> your footage. If your timeline is longer than the plate, just duplicate the clip along the track.</p>
+
+    <h2>4. Set the composite mode to Overlay</h2>
+    <p>Select the grain clip, open the <strong>Inspector</strong>, and change <strong>Composite Mode</strong> to <strong>Overlay</strong>. Because the plate is a neutral gray, only the grain texture shows through. <strong>Soft Light</strong> gives a subtler version of the same effect.</p>
+
+    <h2>5. Dial in the opacity</h2>
+    <p>Lower the grain clip's <strong>Opacity</strong> in the Inspector until it feels organic rather than noisy — usually between 20% and 50% depending on the plate and how filmic you want the image.</p>
+
+    <h2>Grain always goes last</h2>
+    <p>Add grain on top of your <em>finished</em> grade — on real film, grain lives in the print itself, so it should sit over the final image. If you're still building your look, start with a <a href="/powergrades/">free PowerGrade</a> or a <a href="/luts/">free LUT</a>, then finish with grain.</p>
+  </section>
+
   <section class="hub-faq">
     <h2>Frequently asked</h2>
-    <div class="faq-item">
-      <h3>How do I convert Nikon log footage in DaVinci Resolve?</h3>
-      <p>Start with an official Nikon N-Log to Rec.709 conversion LUT to get a neutral, correct base, then build your creative grade on top of it.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Are these Nikon LUTs free?</h3>
-      <p>Yes — every Nikon LUT and grade listed here is free to download from its creator or from the manufacturer.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What format are they?</h3>
-      <p>Mostly .cube 3D LUTs, which DaVinci Resolve reads natively in both the free and Studio versions.</p>
-    </div>
+    <div class="faq-item"><h3>Can I add film grain in the free version of DaVinci Resolve?</h3><p>Yes. The overlay method works entirely in the free version — you only need a grain plate clip and a composite mode. The built-in Film Grain OFX effect is Studio-only.</p></div>
+    <div class="faq-item"><h3>Why use real scanned grain instead of a plugin?</h3><p>Scanned plates come from real film stocks, so the grain structure, size and movement are organic instead of procedurally generated.</p></div>
+    <div class="faq-item"><h3>Should grain go before or after the grade?</h3><p>Grain goes on top of (after) your finished grade, so it sits over the final image the way it would on printed film.</p></div>
   </section>
+
   <nav class="hub-related">
-    <h2>Related collections</h2>
-    <a href="/camera/sony/">Free Sony LUTs</a>
-    <a href="/camera/panasonic/">Free Panasonic LUTs</a>
-    <a href="/camera/dji/">Free DJI LUTs</a>
-    <a href="/camera/canon/">Free Canon LUTs</a>
-    <a href="/luts/">All free LUTs for DaVinci Resolve</a>
+    <h2>Keep exploring</h2>
+    <a href="/film-grain/">Free film grain for DaVinci Resolve</a>
+    <a href="/guides/how-to-install-a-powergrade-in-davinci-resolve/">How to install a PowerGrade</a>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
   </nav>
 </div>
 

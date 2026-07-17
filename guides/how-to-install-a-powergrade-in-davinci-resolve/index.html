@@ -11,9 +11,9 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Nikon LUTs &amp; Grades for DaVinci Resolve (N-Log) | resolve.directory</title>
-<meta name="description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
-<link rel="canonical" href="https://resolve.directory/camera/nikon/">
+<title>How to Install a PowerGrade in DaVinci Resolve (Step by Step) | resolve.directory</title>
+<meta name="description" content="A simple step-by-step guide to importing and applying PowerGrades (.drx) in DaVinci Resolve — where the PowerGrade album is, how to import stills, and how to apply the node tree to your clips.">
+<link rel="canonical" href="https://resolve.directory/guides/how-to-install-a-powergrade-in-davinci-resolve/">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0b0b0b">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -25,70 +25,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://resolve.directory/camera/nikon/">
-<meta property="og:title" content="Free Nikon LUTs for DaVinci Resolve">
-<meta property="og:description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
+<meta property="og:url" content="https://resolve.directory/guides/how-to-install-a-powergrade-in-davinci-resolve/">
+<meta property="og:title" content="How to install a PowerGrade in DaVinci Resolve">
+<meta property="og:description" content="A simple step-by-step guide to importing and applying PowerGrades (.drx) in DaVinci Resolve — where the PowerGrade album is, how to import stills, and how to apply the node tree to your clips.">
 <meta property="og:image" content="https://resolve.directory/og.png">
 <meta property="og:site_name" content="resolve.directory">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Nikon LUTs for DaVinci Resolve">
-<meta name="twitter:description" content="Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.">
+<meta name="twitter:title" content="How to install a PowerGrade in DaVinci Resolve">
+<meta name="twitter:description" content="A simple step-by-step guide to importing and applying PowerGrades (.drx) in DaVinci Resolve — where the PowerGrade album is, how to import stills, and how to apply the node tree to your clips.">
 <meta name="twitter:image" content="https://resolve.directory/og.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Free Nikon LUTs & Grades for DaVinci Resolve (N-Log) | resolve.directory",
-  "description": "Free Nikon LUTs and PowerGrades for DaVinci Resolve — convert N-Log footage to Rec.709 and add a cinematic look, all gathered in one place.",
-  "url": "https://resolve.directory/camera/nikon/"
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Free Nikon LUTs for DaVinci Resolve",
-  "numberOfItems": 3,
-  "itemListElement": [
+  "@type": "HowTo",
+  "name": "How to install a PowerGrade in DaVinci Resolve",
+  "description": "A simple step-by-step guide to importing and applying PowerGrades (.drx) in DaVinci Resolve — where the PowerGrade album is, how to import stills, and how to apply the node tree to your clips.",
+  "step": [
     {
-      "@type": "ListItem",
-      "position": 1,
-      "url": "https://resolve.directory/grade/nikon-n-log-3d-lut/",
-      "name": "Nikon N-Log 3D LUT"
+      "@type": "HowToStep",
+      "name": "Open the Gallery on the Color page",
+      "text": "In DaVinci Resolve go to the Color page and open the Gallery (top-left button)."
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "url": "https://resolve.directory/grade/nikon-red-creative-luts/",
-      "name": "Nikon RED Creative LUTs"
+      "@type": "HowToStep",
+      "name": "Show the PowerGrade album",
+      "text": "Click the \"...\" menu in the Gallery (or right-click the album list) and make sure the PowerGrade 1 album is visible, then select it."
     },
     {
-      "@type": "ListItem",
-      "position": 3,
-      "url": "https://resolve.directory/grade/cinecolor-nikon-n-log-lut/",
-      "name": "CineColor Nikon N-Log LUT"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "resolve.directory",
-      "item": "https://resolve.directory/"
+      "@type": "HowToStep",
+      "name": "Import the .drx or .dpx still",
+      "text": "Right-click inside the PowerGrade album and choose \"Import\", then select the downloaded .drx file (or the still that came with the pack)."
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Nikon LUTs",
-      "item": "https://resolve.directory/camera/nikon/"
+      "@type": "HowToStep",
+      "name": "Apply it to a clip",
+      "text": "Select your clip, then middle-click the PowerGrade still (or right-click it and choose \"Apply Grade\") to copy its whole node tree onto the clip."
     }
   ]
 }
@@ -100,26 +73,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How do I convert Nikon log footage in DaVinci Resolve?",
+      "name": "What is the difference between a PowerGrade and a LUT?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Start with an official Nikon N-Log to Rec.709 conversion LUT to get a neutral, correct base, then build your creative grade on top of it."
+        "text": "A LUT is a single \"baked\" color transform. A PowerGrade is a full DaVinci Resolve node tree — every node stays editable, so you can adjust each part of the look after applying it."
       }
     },
     {
       "@type": "Question",
-      "name": "Are these Nikon LUTs free?",
+      "name": "What file format is a PowerGrade?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — every Nikon LUT and grade listed here is free to download from its creator or from the manufacturer."
+        "text": "Usually a .drx file (a Resolve grade export), sometimes shared as a still image with the grade embedded. Both import into the Gallery the same way."
       }
     },
     {
       "@type": "Question",
-      "name": "What format are they?",
+      "name": "Do PowerGrades work in the free version of DaVinci Resolve?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Mostly .cube 3D LUTs, which DaVinci Resolve reads natively in both the free and Studio versions."
+        "text": "Yes — PowerGrades work in the free version, as long as the nodes inside do not use Studio-only OFX plugins."
       }
     }
   ]
@@ -181,73 +154,46 @@
   <div class="breadcrumb">
     <a href="/index.html">resolve.directory</a>
     <span>/</span>
-    <span>Nikon LUTs</span>
+    <a href="/guides/">Guides</a>
+    <span>/</span>
+    <span>Install a PowerGrade</span>
   </div>
 
-  <div class="detail-head hub-head">
-    <div class="detail-icon" style="color:var(--text-dim)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7H7l1.3-1.9a1 1 0 0 1 .83-.44h5.74a1 1 0 0 1 .83.44L17 7h2.5A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.4" r="3.4"/></svg></div>
-    <div class="detail-title-row">
-      <h1 class="detail-title">Free Nikon LUTs for DaVinci Resolve</h1>
-    </div>
-  </div>
-  <p class="hub-intro">Free color resources for Nikon shooters. Whether you're converting N-Log footage to a clean Rec.709 base or adding a cinematic look on top, these are the free Nikon LUTs and grades collected in the directory — official conversion LUTs and creative packs alike.</p>
+  <h1 class="hub-h1">How to install a PowerGrade in DaVinci Resolve</h1>
+  <p class="hub-intro">A PowerGrade is a complete DaVinci Resolve node tree saved as a preset — unlike a LUT, every node stays fully editable after you apply it. Here's how to import one and apply it to your footage. It takes about a minute.</p>
 
-  <div class="hub-count">3 free resources</div>
+  <section class="guide-prose">
+    <h2>1. Download your PowerGrade</h2>
+    <p>Grab a <code>.drx</code> file (or a still with the grade embedded). Browse the <a href="/powergrades/">free PowerGrades</a> in the directory if you need one — they're all free downloads from their creators.</p>
 
-  <div class="hub-list">
-      <a class="row" href="/grade/nikon-n-log-3d-lut/">
-        <span class="rank">1</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <span class="row-main">
-          <div class="name">Nikon N-Log 3D LUT</div>
-          <div class="desc">Official free 3D LUT for grading N-Log footage from Nikon mirrorless cameras.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#5b9dd9"></span>Official LUT</span>
-        <span class="tag free">FREE</span>
-      </a>
-      <a class="row" href="/grade/nikon-red-creative-luts/">
-        <span class="rank">2</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <span class="row-main">
-          <div class="name">Nikon RED Creative LUTs</div>
-          <div class="desc">Four free creative LUTs for N-Log, developed by Nikon with RED.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#5b9dd9"></span>Official LUT</span>
-        <span class="tag free">FREE</span>
-      </a>
-      <a class="row" href="/grade/cinecolor-nikon-n-log-lut/">
-        <span class="rank">3</span>
-        <span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="12" height="12" rx="1.5"/><path d="M9 9h12v12H9z" opacity="0.55"/></svg></span>
-        <span class="row-main">
-          <div class="name">CineColor Nikon N-Log LUT</div>
-          <div class="desc">Free Nikon N-Log to Rec.709 conversion LUT.</div>
-        </span>
-        <span class="cat"><span class="cat-dot" style="background:#4fae72"></span>LUT Pack</span>
-        <span class="tag free">FREE</span>
-      </a>
-  </div>
+    <h2>2. Open the Gallery on the Color page</h2>
+    <p>Go to the <strong>Color</strong> page and click the <strong>Gallery</strong> button (top-left). This is where Resolve stores stills and grade presets.</p>
+
+    <h2>3. Show the PowerGrade album</h2>
+    <p>In the Gallery's album list, make sure <strong>PowerGrade 1</strong> is visible — if it isn't, click the <strong>…</strong> menu and enable it. Anything saved in a PowerGrade album is available in <em>every</em> project, not just the current one.</p>
+
+    <h2>4. Import the .drx file</h2>
+    <p>Right-click inside the PowerGrade album and choose <strong>Import</strong>, then select your downloaded <code>.drx</code> file. The grade appears as a still in the album.</p>
+
+    <h2>5. Apply it to a clip</h2>
+    <p>Select a clip in the timeline, then <strong>middle-click</strong> the PowerGrade still (or right-click → <strong>Apply Grade</strong>). The full node tree is copied onto your clip — open the node editor and tweak any node to taste.</p>
+
+    <h2>Tip: fix your base first</h2>
+    <p>PowerGrades are built on the assumption of a balanced starting image. If you shot log, do your <a href="/guides/how-to-install-luts-in-davinci-resolve/">conversion to Rec.709</a> or color-manage the project first, then apply the PowerGrade on top.</p>
+  </section>
+
   <section class="hub-faq">
     <h2>Frequently asked</h2>
-    <div class="faq-item">
-      <h3>How do I convert Nikon log footage in DaVinci Resolve?</h3>
-      <p>Start with an official Nikon N-Log to Rec.709 conversion LUT to get a neutral, correct base, then build your creative grade on top of it.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Are these Nikon LUTs free?</h3>
-      <p>Yes — every Nikon LUT and grade listed here is free to download from its creator or from the manufacturer.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What format are they?</h3>
-      <p>Mostly .cube 3D LUTs, which DaVinci Resolve reads natively in both the free and Studio versions.</p>
-    </div>
+    <div class="faq-item"><h3>What is the difference between a PowerGrade and a LUT?</h3><p>A LUT is a single "baked" color transform. A PowerGrade is a full Resolve node tree — every node stays editable, so you can adjust each part of the look after applying it.</p></div>
+    <div class="faq-item"><h3>What file format is a PowerGrade?</h3><p>Usually a .drx file (a Resolve grade export), sometimes shared as a still image with the grade embedded. Both import into the Gallery the same way.</p></div>
+    <div class="faq-item"><h3>Do PowerGrades work in the free version of DaVinci Resolve?</h3><p>Yes — PowerGrades work in the free version, as long as the nodes inside don't use Studio-only OFX plugins.</p></div>
   </section>
+
   <nav class="hub-related">
-    <h2>Related collections</h2>
-    <a href="/camera/sony/">Free Sony LUTs</a>
-    <a href="/camera/panasonic/">Free Panasonic LUTs</a>
-    <a href="/camera/dji/">Free DJI LUTs</a>
-    <a href="/camera/canon/">Free Canon LUTs</a>
-    <a href="/luts/">All free LUTs for DaVinci Resolve</a>
+    <h2>Keep exploring</h2>
+    <a href="/powergrades/">Free PowerGrades for DaVinci Resolve</a>
+    <a href="/guides/how-to-install-luts-in-davinci-resolve/">How to install a LUT</a>
+    <a href="/luts/">Free LUTs for DaVinci Resolve</a>
   </nav>
 </div>
 
